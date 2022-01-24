@@ -3,12 +3,10 @@ package com.solvabit.phishingsmsdetector
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.provider.Telephony
-import android.telephony.SmsMessage
 import android.util.Log
 import android.widget.Toast
-import java.lang.Exception
+import androidx.core.content.ContextCompat
 
 
 class MessageReceiver : BroadcastReceiver() {
@@ -17,10 +15,12 @@ class MessageReceiver : BroadcastReceiver() {
             for (smsMessage in Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
                 val message = smsMessage.messageBody
                 val from = smsMessage.originatingAddress
-                Log.i("Message",message+from)
-                Toast.makeText(context,message+from,Toast.LENGTH_LONG).show()
+                Log.i("Message", message + from)
+                Toast.makeText(context, message + from, Toast.LENGTH_LONG).show()
             }
         }
     }
+
+
 
 }

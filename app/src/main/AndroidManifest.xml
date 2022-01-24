@@ -3,6 +3,7 @@
     package="com.solvabit.phishingsmsdetector">
 
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
