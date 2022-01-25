@@ -1,6 +1,6 @@
 package com.solvabit.phishingsmsdetector.models
 
 data class Phishing(
-    val result: String,
+    val result: Boolean,
     val score: Int
 )

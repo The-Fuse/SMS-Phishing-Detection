@@ -39,7 +39,7 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
                 val reply = response.body()
                 viewModelScope.launch {
                     val phishedMessage =
-                        PhishedMessages(message._id.toString(), reply?.score ?: 0, reply?.result ?: "", message.address)
+                        PhishedMessages(message._id.toString(), reply?.score ?: 0, reply?.result ?: false, message.address)
                     database.phishingMessagesDao().insertPhishedMessages(phishedMessage)
                 }
 

@@ -22,7 +22,7 @@ class MessageReceiver : BroadcastReceiver() {
                 val message = smsMessage.messageBody
                 val from = smsMessage.originatingAddress
                 Log.i("Message", message + from)
-                // Toast.makeText(context, message + from, Toast.LENGTH_LONG).show()
+
                 val phishingMessage  = Phishing_Message(message)
                 val phishingAPI = PhishingService.phishingAPInstance.checkPhishing(phishingMessage)
                 phishingAPI.enqueue(object : retrofit2.Callback<Phishing> {

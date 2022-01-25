@@ -8,6 +8,6 @@ data class PhishedMessages(
     @PrimaryKey
     val _id: String,
     val score: Int,
-    val result: String,
+    val result: Boolean,
     val sender: String
 )
