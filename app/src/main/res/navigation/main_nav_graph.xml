@@ -22,5 +22,17 @@
         <argument
             android:name="messages"
             app:argType="com.solvabit.phishingsmsdetector.models.Message[]" />
+        <action
+            android:id="@+id/action_messagesFragment_to_messageDetailsFragment"
+            app:destination="@id/messageDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageDetailsFragment"
+        android:name="com.solvabit.phishingsmsdetector.screens.details.MessageDetailsFragment"
+        android:label="MessageDetailsFragment"
+        tools:layout="@layout/fragment_message_details">
+        <argument
+            android:name="message"
+            app:argType="com.solvabit.phishingsmsdetector.models.Message" />
     </fragment>
 </navigation>

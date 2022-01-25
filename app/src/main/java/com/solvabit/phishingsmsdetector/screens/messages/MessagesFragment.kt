@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.solvabit.phishingsmsdetector.databinding.FragmentMessagesBinding
 import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import java.util.*
 
 
@@ -30,7 +31,7 @@ class MessagesFragment : Fragment() {
         binding.viewModel = viewModel
         
         val adapter = AllMessagesAdapter(MessagesListener {
-            Toast.makeText(context, "${getDateTime(it.date.toString())}", Toast.LENGTH_SHORT).show()
+            this.findNavController().navigate(MessagesFragmentDirections.actionMessagesFragmentToMessageDetailsFragment(it))
         })
         binding.recyclerAllMessages.adapter = adapter
         viewModel.allMessages.observe(viewLifecycleOwner, Observer {
