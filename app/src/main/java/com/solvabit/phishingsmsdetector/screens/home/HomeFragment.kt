@@ -1,8 +1,12 @@
 package com.solvabit.phishingsmsdetector.screens.home
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Telephony
 import android.util.Log
@@ -17,6 +21,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.solvabit.phishingsmsdetector.api.PhishingService
 import androidx.navigation.fragment.findNavController
+import com.solvabit.phishingsmsdetector.R
 import com.solvabit.phishingsmsdetector.databinding.FragmentHomeBinding
 import com.solvabit.phishingsmsdetector.models.Phishing
 import com.solvabit.phishingsmsdetector.models.Phishing_Message
@@ -48,7 +53,35 @@ class HomeFragment : Fragment() {
         })
         binding.recyclerViewSender.adapter = adapter
 
+        createChannel(
+            getString(R.string.phishing_notification_channel_id),
+            getString(R.string.phishing_notification_channel_name)
+        )
+
         return binding.root
+    }
+
+    private fun createChannel(channelId: String, channelName: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                channelId,
+                channelName,
+                NotificationManager.IMPORTANCE_HIGH
+            )
+                .apply {
+                    setShowBadge(false)
+                }
+
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.RED
+            notificationChannel.enableVibration(true)
+            notificationChannel.description = "This gives Phishing reports"
+
+            val notificationManager = requireActivity().getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
     }
 
 
