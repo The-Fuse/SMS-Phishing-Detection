@@ -75,7 +75,8 @@ dependencies {
 
     // Room database
     def room_version = "2.3.0" // check latest version from docs
+    implementation "androidx.room:room-runtime:2.4.1"
     implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:2.4.1"
 
 }

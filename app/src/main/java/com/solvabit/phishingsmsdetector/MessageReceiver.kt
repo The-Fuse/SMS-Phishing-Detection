@@ -28,15 +28,20 @@ class MessageReceiver : BroadcastReceiver() {
                 phishingAPI.enqueue(object : retrofit2.Callback<Phishing> {
                     override fun onResponse(call: Call<Phishing>, response: Response<Phishing>) {
                         TODO("Not yet implemented")
+                        sendNotification(context)
                     }
 
                     override fun onFailure(call: Call<Phishing>, t: Throwable) {
                         TODO("Not yet implemented")
+                        sendNotification(context)
                     }
 
                 })
             }
         }
+    }
+    fun sendNotification(context: Context?){
+        Toast.makeText(context,  "API Hit", Toast.LENGTH_LONG).show()
     }
 
 

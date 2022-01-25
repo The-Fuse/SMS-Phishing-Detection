@@ -7,14 +7,15 @@ import androidx.room.*
 interface MessagesDao {
 
     @Insert
-    suspend fun insertMessage(message: PhishedMessages)
+    suspend fun insertPhishedMessages(phishedMessages: PhishedMessages)
 
     @Update
-    suspend fun updateMessage(message: PhishedMessages)
+    suspend fun updatePhishedMessages(phishedMessages: PhishedMessages)
 
     @Delete
-    suspend fun deleteMessage(message: PhishedMessages)
+    suspend fun deletePhishedMessages(phishedMessages: PhishedMessages)
 
     @Query("SELECT * from messages")
-    fun getMessages(): LiveData<List<PhishedMessages>>
+    fun getPhishedMessages(): LiveData<List<PhishedMessages>>
+
 }

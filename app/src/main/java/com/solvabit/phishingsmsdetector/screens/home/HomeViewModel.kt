@@ -33,7 +33,8 @@ class HomeViewModel(context: Context,private val contentResolver: ContentResolve
 
     fun checkPhishing(message: Message) {
 
-        val phishingMessage  = Phishing_Message(message.body)
+        val text = message.body.toString()
+        val phishingMessage  = Phishing_Message(text)
         val phishingAPI = PhishingService.phishingAPInstance.checkPhishing(phishingMessage)
         phishingAPI.enqueue(object : retrofit2.Callback<Phishing> {
             override fun onResponse(call: Call<Phishing>, response: Response<Phishing>) {
