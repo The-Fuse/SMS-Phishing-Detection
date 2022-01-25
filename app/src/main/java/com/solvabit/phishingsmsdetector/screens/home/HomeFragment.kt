@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Telephony
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +29,11 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         val contentResolver = requireActivity().contentResolver
-        val homeViewModelFactory = HomeViewModelFactory(contentResolver)
+        val cursor = contentResolver.query(
+            Telephony.Sms.CONTENT_URI,
+            null, null, null, null
+        )
+        val homeViewModelFactory = HomeViewModelFactory(cursor!!)
         viewModel = ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -37,9 +42,6 @@ class HomeFragment : Fragment() {
             this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMessagesFragment(viewModel.getList(it.address)))
         })
         binding.recyclerViewSender.adapter = adapter
-
-        displaySmsLog()
-
 
         return binding.root
     }
@@ -63,22 +65,6 @@ class HomeFragment : Fragment() {
                 arrayOf(Manifest.permission.RECEIVE_SMS),
                 200
             );
-        }
-    }
-
-    private fun displaySmsLog() {
-        val allMessages: Uri = Uri.parse("content://sms/")
-        //Cursor cursor = managedQuery(allMessages, null, null, null, null); Both are same
-        val cursor = activity?.contentResolver?.query(allMessages, null, null, null, null) ?: return
-
-        while (cursor.moveToNext()) {
-            for (i in 0 until cursor.getColumnCount()) {
-                Log.d(cursor.getColumnName(i).toString() + "", cursor.getString(i).toString() + "")
-            }
-            Log.d(
-                "One row finished",
-                "**************************************************"
-            )
         }
     }
 

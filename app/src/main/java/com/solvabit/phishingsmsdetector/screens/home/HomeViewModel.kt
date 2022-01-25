@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.solvabit.phishingsmsdetector.models.Message
 
-class HomeViewModel(private val contentResolver: ContentResolver): ViewModel() {
+class HomeViewModel(private val cursor: Cursor): ViewModel() {
 
     private val _allMessages = MutableLiveData<List<Message>>()
     private val _msgList = MutableLiveData<List<Message>>()
@@ -24,10 +24,6 @@ class HomeViewModel(private val contentResolver: ContentResolver): ViewModel() {
 
     fun readSms()
     {
-        val cursor = contentResolver.query(
-            Telephony.Sms.CONTENT_URI,
-            null, null, null, null
-        ) ?: return
 
         val mutableMsgList = mutableListOf<Message>()
         while (cursor.moveToNext()) {
