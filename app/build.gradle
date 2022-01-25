@@ -81,10 +81,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.4.1"
 
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:29.0.4')
-
-    // firebase analytics
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-bom:29.0.4'
 
     // firebase language
     implementation 'com.google.firebase:firebase-ml-natural-language:22.0.0'
