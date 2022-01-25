@@ -2,4 +2,5 @@
     <string name="app_name">Phishing SMS Detector</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="temp_msg">100% data quota exhausted as on 22-Jan-22 19:31. Jio Number : 8077177736 Plan Name : Rs 119-14D-1.5GB/D Bucket Name : Data  Internet speed will be reduced if you do not have any other active recharge plan or 4G data voucher. To continue enjoying high speed internet, click https://www.jio.com/dl/data_voucher and recharge. Dial 1991, to know your current balance, validity, plan details and for exciting recharge plans.</string>
 </resources>
