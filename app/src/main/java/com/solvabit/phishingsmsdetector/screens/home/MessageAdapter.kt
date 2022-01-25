@@ -1,10 +1,12 @@
-package com.solvabit.phishingsmsdetector
+package com.solvabit.phishingsmsdetector.screens.home
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.solvabit.phishingsmsdetector.models.Message
+import com.solvabit.phishingsmsdetector.R
 
 class MessageAdapter(val messageList: List<Message>): RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 

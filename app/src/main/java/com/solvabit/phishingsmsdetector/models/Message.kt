@@ -1,4 +1,4 @@
-package com.solvabit.phishingsmsdetector
+package com.solvabit.phishingsmsdetector.models
 
 data class Message(
     val text: String,
