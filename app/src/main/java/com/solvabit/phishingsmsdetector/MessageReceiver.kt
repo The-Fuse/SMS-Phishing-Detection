@@ -22,18 +22,18 @@ class MessageReceiver : BroadcastReceiver() {
                 val message = smsMessage.messageBody
                 val from = smsMessage.originatingAddress
                 Log.i("Message", message + from)
-                Toast.makeText(context, message + from, Toast.LENGTH_LONG).show()
+                // Toast.makeText(context, message + from, Toast.LENGTH_LONG).show()
                 val phishingMessage  = Phishing_Message(message)
                 val phishingAPI = PhishingService.phishingAPInstance.checkPhishing(phishingMessage)
                 phishingAPI.enqueue(object : retrofit2.Callback<Phishing> {
                     override fun onResponse(call: Call<Phishing>, response: Response<Phishing>) {
-                        TODO("Not yet implemented")
-                        sendNotification(context)
+                        val result = response.body()
+                        Toast.makeText(context,result.toString(),Toast.LENGTH_LONG).show()
                     }
 
                     override fun onFailure(call: Call<Phishing>, t: Throwable) {
-                        TODO("Not yet implemented")
-                        sendNotification(context)
+                        val error = t.message
+                        Toast.makeText(context,error,Toast.LENGTH_LONG).show()
                     }
 
                 })
