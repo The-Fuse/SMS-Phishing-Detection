@@ -62,6 +62,7 @@ dependencies {
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
 
     // Moshi
@@ -74,7 +75,8 @@ dependencies {
 
     // Room database
     def room_version = "2.3.0" // check latest version from docs
+    implementation "androidx.room:room-runtime:2.4.1"
     implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:2.4.1"
 
 }

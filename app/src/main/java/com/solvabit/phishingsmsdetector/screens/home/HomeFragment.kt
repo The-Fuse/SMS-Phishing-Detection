@@ -14,8 +14,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.solvabit.phishingsmsdetector.api.PhishingService
 import androidx.navigation.fragment.findNavController
 import com.solvabit.phishingsmsdetector.databinding.FragmentHomeBinding
+import com.solvabit.phishingsmsdetector.models.Phishing
+import com.solvabit.phishingsmsdetector.models.Phishing_Message
+import retrofit2.Call
+import retrofit2.Response
 
 
 class HomeFragment : Fragment() {
@@ -28,7 +33,7 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
         val contentResolver = requireActivity().contentResolver
-        val homeViewModelFactory = HomeViewModelFactory(contentResolver)
+        val homeViewModelFactory = HomeViewModelFactory(requireContext(),contentResolver)
         viewModel = ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -40,9 +45,9 @@ class HomeFragment : Fragment() {
 
         displaySmsLog()
 
-
         return binding.root
     }
+
 
     private fun checkSmsPermission() {
         if (ContextCompat.checkSelfPermission(
