@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -25,18 +26,16 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-
         val contentResolver = requireActivity().contentResolver
         val homeViewModelFactory = HomeViewModelFactory(contentResolver)
         viewModel = ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
 
-        viewModel.msgList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                binding.recyclerViewSender.adapter = MessageAdapter(it)
-            }
+        val adapter = HomeAdapter(HomeAdapterListener {
+            Toast.makeText(context, "Clicked on - ${it.address}", Toast.LENGTH_SHORT).show()
         })
-
-
+        binding.recyclerViewSender.adapter = adapter
 
         displaySmsLog()
 

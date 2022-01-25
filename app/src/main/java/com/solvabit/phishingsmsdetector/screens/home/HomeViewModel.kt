@@ -47,7 +47,14 @@ class HomeViewModel(private val contentResolver: ContentResolver): ViewModel() {
             }
             mutableMsgList.add(msg)
         }
-        _msgList.value = mutableMsgList
+        _msgList.value = mutableMsgList.distinctBy {
+            it.address
+        }
+        Log.i(TAG, "readSms: ${_msgList.value.toString()}")
         cursor.close()
+    }
+
+    companion object {
+        private const val TAG = "HomeViewModel"
     }
 }

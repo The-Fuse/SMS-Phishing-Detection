@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <data>
-
+                <variable
+                    name="viewModel"
+                    type="com.solvabit.phishingsmsdetector.screens.home.HomeViewModel" />
         </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,6 +18,8 @@
                     android:id="@+id/recycler_view_sender"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    app:bindSenderData="@{viewModel.msgList}"
+                    android:scrollbars="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
