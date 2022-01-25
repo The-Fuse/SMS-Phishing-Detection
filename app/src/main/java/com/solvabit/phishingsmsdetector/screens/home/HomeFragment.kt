@@ -41,35 +41,13 @@ class HomeFragment : Fragment() {
             }
         })
 
-        checkSmsPermission()
-
         displaySmsLog()
 
 
         return binding.root
     }
 
-    private fun checkSmsPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                "android.permission.RECEIVE_SMS"
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            // App has permissions to listen incoming SMS messages
-            Log.d("adnan", "checkForSmsReceivePermissions: Allowed");
-            viewModel.readSms()
-        } else {
-            // App don't have permissions to listen incoming SMS messages
-            Log.d("adnan", "checkForSmsReceivePermissions: Denied");
 
-            // Request permissions from user
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.RECEIVE_SMS),
-                200
-            );
-        }
-    }
 
     private fun displaySmsLog() {
         val allMessages: Uri = Uri.parse("content://sms/")

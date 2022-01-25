@@ -21,7 +21,7 @@ class HomeViewModel(private val contentResolver: ContentResolver): ViewModel() {
         readSms()
     }
 
-    fun readSms()
+    private fun readSms()
     {
 
 
