@@ -19,7 +19,7 @@ import com.solvabit.phishingsmsdetector.models.Phishing_Message
 import retrofit2.Call
 import retrofit2.Response
 
-class HomeViewModel(context: Context,private val contentResolver: ContentResolver): ViewModel() {
+class HomeViewModel(context: Context, private val cursor: Cursor): ViewModel() {
 
     private val _allMessages = MutableLiveData<List<Message>>()
     private val _msgList = MutableLiveData<List<Message>>()
@@ -57,10 +57,6 @@ class HomeViewModel(context: Context,private val contentResolver: ContentResolve
 
     fun readSms()
     {
-        val cursor = contentResolver.query(
-            Telephony.Sms.CONTENT_URI,
-            null, null, null, null
-        ) ?: return
 
         val mutableMsgList = mutableListOf<Message>()
         while (cursor.moveToNext()) {
