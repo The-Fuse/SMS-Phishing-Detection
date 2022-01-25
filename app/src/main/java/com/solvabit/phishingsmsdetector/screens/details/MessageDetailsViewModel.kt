@@ -1,24 +1,18 @@
 package com.solvabit.phishingsmsdetector.screens.details
 
 import android.util.Log
-import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 import com.solvabit.phishingsmsdetector.api.PhishingService
 import com.solvabit.phishingsmsdetector.models.Message
 import com.solvabit.phishingsmsdetector.models.Phishing
 import com.solvabit.phishingsmsdetector.models.Phishing_Message
 import retrofit2.Call
 import retrofit2.Response
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
-import com.solvabit.phishingsmsdetector.models.Message
-import kotlinx.coroutines.launch
 
 class MessageDetailsViewModel(val message: Message): ViewModel() {
 
