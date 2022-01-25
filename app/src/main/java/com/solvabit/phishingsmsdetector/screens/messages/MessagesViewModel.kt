@@ -14,4 +14,5 @@ class MessagesViewModel(val messages: List<Message>): ViewModel() {
     init {
         _allMessages.value = messages.reversed()
     }
+
 }

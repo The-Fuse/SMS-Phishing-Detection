@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.solvabit.phishingsmsdetector.R
+import com.solvabit.phishingsmsdetector.database.PhishingMessageDatabase
 import com.solvabit.phishingsmsdetector.databinding.FragmentMessageDetailsBinding
 
 class MessageDetailsFragment : Fragment() {
@@ -20,7 +20,9 @@ class MessageDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMessageDetailsBinding.inflate(layoutInflater)
-        val messageDetailsViewModelFactory = MessageDetailsViewModelFactory(args.message)
+
+        val database = PhishingMessageDatabase.getDatabase(requireContext())
+        val messageDetailsViewModelFactory = MessageDetailsViewModelFactory(args.message, database)
         viewModel = ViewModelProvider(this, messageDetailsViewModelFactory)[MessageDetailsViewModel::class.java]
         binding.message = args.message
         binding.viewModel = viewModel
