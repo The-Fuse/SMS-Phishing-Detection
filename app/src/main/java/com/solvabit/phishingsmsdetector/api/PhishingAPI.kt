@@ -10,12 +10,12 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 
 
-const val BASE_URL = "https://.api/"
+const val BASE_URL = "https://63f58654-5ce7-4243-874a-f8316aa48776.mock.pstmn.io/"
 
 interface PhishingAPI {
 
     @Headers("Content-Type: application/json")
-    @POST
+    @POST("post/")
     fun checkPhishing(@Body message: Phishing_Message): Call<Phishing>
 }
 
