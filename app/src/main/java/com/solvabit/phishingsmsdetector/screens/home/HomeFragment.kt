@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.solvabit.phishingsmsdetector.databinding.FragmentHomeBinding
 
 
@@ -33,7 +34,7 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val adapter = HomeAdapter(HomeAdapterListener {
-            Toast.makeText(context, "Clicked on - ${it.address}", Toast.LENGTH_SHORT).show()
+            this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMessagesFragment(viewModel.getList(it.address)))
         })
         binding.recyclerViewSender.adapter = adapter
 

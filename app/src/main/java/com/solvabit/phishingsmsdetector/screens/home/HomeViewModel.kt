@@ -12,6 +12,7 @@ import com.solvabit.phishingsmsdetector.models.Message
 
 class HomeViewModel(private val contentResolver: ContentResolver): ViewModel() {
 
+    private val _allMessages = MutableLiveData<List<Message>>()
     private val _msgList = MutableLiveData<List<Message>>()
     val msgList: LiveData<List<Message>>
         get() = _msgList
@@ -47,11 +48,18 @@ class HomeViewModel(private val contentResolver: ContentResolver): ViewModel() {
             }
             mutableMsgList.add(msg)
         }
+        _allMessages.value = mutableMsgList
         _msgList.value = mutableMsgList.distinctBy {
             it.address
         }
         Log.i(TAG, "readSms: ${_msgList.value.toString()}")
         cursor.close()
+    }
+
+    fun getList(address: String): Array<Message> {
+        return _allMessages.value?.filter {
+            it.address == address
+        }?.toTypedArray() ?: arrayOf()
     }
 
     companion object {

@@ -9,5 +9,18 @@
         android:id="@+id/homeFragment"
         android:name="com.solvabit.phishingsmsdetector.screens.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/messagesFragment"
+        android:name="com.solvabit.phishingsmsdetector.screens.messages.MessagesFragment"
+        android:label="MessagesFragment"
+        tools:layout="@layout/fragment_messages">
+        <argument
+            android:name="messages"
+            app:argType="com.solvabit.phishingsmsdetector.models.Message[]" />
+    </fragment>
 </navigation>
