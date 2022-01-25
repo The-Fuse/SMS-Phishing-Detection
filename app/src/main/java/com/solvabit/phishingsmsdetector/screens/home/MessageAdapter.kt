@@ -1,33 +1,55 @@
 package com.solvabit.phishingsmsdetector.screens.home
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.solvabit.phishingsmsdetector.databinding.SenderCardBinding
 import com.solvabit.phishingsmsdetector.models.Message
-import com.solvabit.phishingsmsdetector.R
 
-class MessageAdapter(val messageList: List<Message>): RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
+class HomeAdapter(private val homeAdapterListener: HomeAdapterListener) :
+    ListAdapter<Message, HomeAdapter.ViewHolder>(HomeDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.message_card,parent,false)
-        return MessageViewHolder(view)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = getItem(position)
+        holder.bind(item, homeAdapterListener)
     }
 
-    override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        holder.text.text = messageList[position].body
-        holder.from.text = messageList[position].address
-        holder.type.text = messageList[position]._id.toString()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent)
     }
 
-    override fun getItemCount(): Int {
-        return messageList.size
+
+    class ViewHolder private constructor(private val binding: SenderCardBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: Message, homeAdapterListener: HomeAdapterListener) {
+            binding.message = item
+            binding.clickListener = homeAdapterListener
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = SenderCardBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding)
+            }
+        }
+    }
+}
+
+class HomeDiffCallback : DiffUtil.ItemCallback<Message>() {
+    override fun areItemsTheSame(oldItem: Message, newItem: Message): Boolean {
+        return oldItem._id == newItem._id
     }
 
-    class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val text  = itemView.findViewById<TextView>(R.id.text)
-        val from  = itemView.findViewById<TextView>(R.id.from)
-        val type  = itemView.findViewById<TextView>(R.id.type)
+    override fun areContentsTheSame(oldItem: Message, newItem: Message): Boolean {
+        return oldItem == newItem
     }
+
+}
+
+class HomeAdapterListener(val clickListener: (message: Message) -> Unit) {
+    fun onClick(message: Message) = clickListener(message)
 }
