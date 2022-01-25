@@ -16,9 +16,9 @@ class MessageAdapter(val messageList: List<Message>): RecyclerView.Adapter<Messa
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
-        holder.text.text = messageList[position].text
-        holder.from.text = messageList[position].number
-        holder.type.text = messageList[position].type
+        holder.text.text = messageList[position].body
+        holder.from.text = messageList[position].address.toString()
+        holder.type.text = messageList[position]._id.toString()
     }
 
     override fun getItemCount(): Int {

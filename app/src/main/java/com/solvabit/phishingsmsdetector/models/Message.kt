@@ -12,5 +12,6 @@ data class Message(
     val subject: String?,
     val body: String,
     val service_center: String?,
-    val creator: String?
+    val creator: String?,
+    val type: Int
 )
