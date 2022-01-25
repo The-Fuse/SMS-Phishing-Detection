@@ -23,64 +23,38 @@ class HomeViewModel(private val contentResolver: ContentResolver): ViewModel() {
 
     private fun readSms()
     {
-
-
-        val idCol = Telephony.TextBasedSmsColumns.THREAD_ID
-        val addressCol = Telephony.TextBasedSmsColumns.ADDRESS
-        val personCol = Telephony.TextBasedSmsColumns.PERSON
-        val dateCol = Telephony.TextBasedSmsColumns.DATE
-        val dateSentCol = Telephony.TextBasedSmsColumns.DATE_SENT
-        val readCol = Telephony.TextBasedSmsColumns.READ
-        val seenCol = Telephony.TextBasedSmsColumns.SEEN
-        val replyPathCol = Telephony.TextBasedSmsColumns.REPLY_PATH_PRESENT
-        val subjectCol = Telephony.TextBasedSmsColumns.SUBJECT
-        val bodyCol = Telephony.TextBasedSmsColumns.BODY
-        val serviceCol = Telephony.TextBasedSmsColumns.SERVICE_CENTER
-        val creatorCol = Telephony.TextBasedSmsColumns.CREATOR
-        val typeCol = Telephony.TextBasedSmsColumns.TYPE // 1 - Inbox, 2 - Sent
-        val projection = arrayOf(idCol,addressCol,personCol,dateCol,dateSentCol,readCol,seenCol,replyPathCol,subjectCol,bodyCol,serviceCol,creatorCol,typeCol)
-
         val cursor = contentResolver.query(
             Telephony.Sms.CONTENT_URI,
-            projection, null, null, null
-        )
-
-        val idColIdx = cursor!!.getColumnIndex(idCol)
-        val addressColIdx = cursor.getColumnIndex(addressCol)
-        val personColIdx = cursor.getColumnIndex(personCol)
-        val dateColIdx = cursor.getColumnIndex(dateCol)
-        val dateSentColIdx = cursor.getColumnIndex(dateSentCol)
-        val readColIdx = cursor.getColumnIndex(readCol)
-        val seenColIdx = cursor.getColumnIndex(seenCol)
-        val replyPathColIdx = cursor.getColumnIndex(replyPathCol)
-        val subjectColIdx = cursor.getColumnIndex(subjectCol)
-        val bodyColIdx = cursor.getColumnIndex(bodyCol)
-        val serviceColIdx = cursor.getColumnIndex(serviceCol)
-        val creatorColIdx = cursor.getColumnIndex(creatorCol)
-        val typeColIdx = cursor.getColumnIndex(typeCol)
+            null, null, null, null
+        ) ?: return
 
         val mutableMsgList = mutableListOf<Message>()
         while (cursor.moveToNext()) {
-            val id = cursor.getInt(idColIdx)
-            val address = cursor.getLong(addressColIdx)
-            val person = cursor.getString(personColIdx)
-            val date = cursor.getLong(dateColIdx)
-            val dateSent = cursor.getLong(dateSentColIdx)
-            val read = cursor.getInt(readColIdx)
-            val seen = cursor.getInt(seenColIdx)
-            val reply_path_present = cursor.getInt(replyPathColIdx)
-            val subject = cursor.getString(subjectColIdx)
-            val body = cursor.getString(bodyColIdx)
-            val service_center = cursor.getString(serviceColIdx)
-            val creator = cursor.getString(creatorColIdx)
-            val type = cursor.getInt(typeColIdx)
-
-            val msg = Message(id,address,person,date,dateSent,read,seen,reply_path_present,subject,body,service_center,creator,type)
+            val msg = Message().apply {
+                _id = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms._ID))
+                address = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.ADDRESS))
+                person = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.PERSON))
+                date = cursor.getLong(cursor.getColumnIndexOrThrow(Telephony.Sms.DATE))
+                date_sent = cursor.getLong(cursor.getColumnIndexOrThrow(Telephony.Sms.DATE_SENT))
+                read = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.READ))
+                seen = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.SEEN))
+                replyPathPresent = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.REPLY_PATH_PRESENT))
+                subject = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.SUBJECT))
+                body = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.BODY))
+                serviceCenter = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.SERVICE_CENTER))
+                creator = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.CREATOR))
+                type = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.TYPE))
+            }
             mutableMsgList.add(msg)
         }
-        _msgList.value = mutableMsgList
-
-        Log.i("MainActivity",mutableMsgList.toString())
+        _msgList.value = mutableMsgList.distinctBy {
+            it.address
+        }
+        Log.i(TAG, "readSms: ${_msgList.value.toString()}")
         cursor.close()
+    }
+
+    companion object {
+        private const val TAG = "HomeViewModel"
     }
 }
