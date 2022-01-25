@@ -38,8 +38,7 @@ class HomeFragment : Fragment() {
             Telephony.Sms.CONTENT_URI,
             null, null, null, null
         )
-        val homeViewModelFactory = HomeViewModelFactory(cursor!!, contentResolver)
-        val homeViewModelFactory = HomeViewModelFactory(requireContext(),contentResolver)
+        val homeViewModelFactory = HomeViewModelFactory(requireContext(), cursor!!)
         viewModel = ViewModelProvider(this, homeViewModelFactory)[HomeViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
