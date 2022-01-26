@@ -20,15 +20,31 @@ import retrofit2.Response
 
 class MessageDetailsViewModel(val message: Message, val database: PhishingMessageDatabase) : ViewModel() {
 
+    var msgExist: Boolean = false
     private val _hindiText = MutableLiveData<String>()
     val hindiText: LiveData<String>
         get() = _hindiText
 
     init {
+        getPhishingData(message)
         initializeTranslation(message.body)
-        checkPhishing(message)
     }
 
+    private fun getPhishingData(message: Message) {
+            val msgData = database.phishingMessagesDao().getPhishedMessages().value
+            if (msgData != null) {
+                for (i in msgData){
+                    if (i._id.toString() == message._id.toString()){
+                        msgExist = true
+                    }
+                }
+
+            }
+            Log.d("error",msgExist.toString())
+            if (!msgExist){
+                checkPhishing(message)
+            }
+    }
     private fun checkPhishing(message: Message) {
 
         val text = message.body
@@ -38,6 +54,7 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
             override fun onResponse(call: Call<Phishing>, response: Response<Phishing>) {
                 val reply = response.body()
                 viewModelScope.launch {
+
                     val phishedMessage =
                         PhishedMessages(message._id.toString(), reply?.score ?: 0, reply?.result ?: false, message.address)
                     database.phishingMessagesDao().insertPhishedMessages(phishedMessage)

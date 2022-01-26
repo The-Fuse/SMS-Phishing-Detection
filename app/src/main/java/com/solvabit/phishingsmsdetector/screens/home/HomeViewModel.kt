@@ -7,6 +7,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.solvabit.phishingsmsdetector.database.PhishedMessages
 import com.solvabit.phishingsmsdetector.database.PhishingMessageDatabase
 import com.solvabit.phishingsmsdetector.models.Message
 
@@ -14,6 +16,7 @@ class HomeViewModel(context: Context, private val cursor: Cursor): ViewModel() {
 
     private val _allMessages = MutableLiveData<List<Message>>()
     private val _msgList = MutableLiveData<List<Message>>()
+    lateinit var msgData : LiveData<List<PhishedMessages>>
     val msgList: LiveData<List<Message>>
         get() = _msgList
 
@@ -21,9 +24,15 @@ class HomeViewModel(context: Context, private val cursor: Cursor): ViewModel() {
 
     init {
         readSms()
+        getPhishingData()
     }
 
-    // TODO: 25-01-2022 Function to get data from room 
+    // TODO: 25-01-2022 Function to get data from room
+
+    private fun getPhishingData(){
+        msgData = database.phishingMessagesDao().getPhishedMessages()
+    }
+
 
     // TODO: 25-01-2022 Function to check if the id is in phishing 
 
