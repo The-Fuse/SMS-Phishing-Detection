@@ -13,42 +13,47 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/send_time"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:background="@drawable/cardsbg"
-        android:layout_marginBottom="12dp"
         android:onClick="@{() -> clickListener.onClick(message)}">
-
-        <ImageView
-        android:id="@+id/sender_imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:src="@drawable/ic_baseline_account_circle_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
 
         <TextView
             android:id="@+id/sender_name_textView"
             android:layout_width="0dp"
-            android:background="@drawable/message_bg"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:fontFamily="@font/lato"
-            android:layout_marginEnd="40dp"
-            android:text="@{message.body}"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="8dp"
             android:autoLink="all"
-            android:textSize="16sp"
-            android:padding="12dp"
+            android:background="@drawable/message_bg"
+            android:fontFamily="@font/lato"
             android:linksClickable="false"
+            android:padding="12dp"
+            android:text="@{message.body}"
             android:textColor="@color/black"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/sender_imageView"
+            app:layout_constraintStart_toStartOf="parent"
             tools:text="@string/temp_msg" />
+
+        <TextView
+            android:id="@+id/textView6"
+            bindFormatDate="@{message.date}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/lato_light"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/sender_name_textView"
+            app:layout_constraintEnd_toEndOf="@+id/sender_name_textView"
+            app:layout_constraintStart_toStartOf="@+id/sender_name_textView"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
