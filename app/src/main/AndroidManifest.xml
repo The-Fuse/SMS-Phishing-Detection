@@ -29,7 +29,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"/>
-
         <receiver
             android:name=".MessageReceiver"
             android:exported="true">
