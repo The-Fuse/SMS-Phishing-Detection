@@ -25,6 +25,7 @@ class SplashScreen : AppCompatActivity() {
             Log.d("adnan", "checkForSmsReceivePermissions: Allowed");
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
+            finish()
         } else {
             // App don't have permissions to listen incoming SMS messages
             Log.d("adnan", "checkForSmsReceivePermissions: Denied");
@@ -32,6 +33,7 @@ class SplashScreen : AppCompatActivity() {
             // Request permissions from user
             val intent = Intent(this,OnBoarding::class.java)
             startActivity(intent)
+            finish()
         }
     }
 
@@ -48,6 +50,7 @@ class SplashScreen : AppCompatActivity() {
                     // in your app.
                     val intent = Intent(this,MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
                     // Explain to the user that the feature is unavailable because
                     // the features requires a permission that the user has denied.
@@ -56,6 +59,7 @@ class SplashScreen : AppCompatActivity() {
                     // their decision.
                     val intent = Intent(this,OnBoarding::class.java)
                     startActivity(intent)
+                    finish()
 
                 }
                 return
