@@ -17,6 +17,6 @@ data class Message(
     var body: String = "",
     var serviceCenter: String? = "",
     var creator: String? = "",
-    var type: Int = -1
+    var type: Int = 0
 ): Parcelable
 

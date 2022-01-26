@@ -4,40 +4,34 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.Telephony
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.solvabit.phishingsmsdetector.database.PhishedMessages
 import com.solvabit.phishingsmsdetector.database.PhishingMessageDatabase
 import com.solvabit.phishingsmsdetector.models.Message
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
-class HomeViewModel(context: Context, private val cursor: Cursor): ViewModel() {
+class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() {
+
+    private val mutableMsgList = mutableListOf<Message>()
 
     private val _allMessages = MutableLiveData<List<Message>>()
     private val _msgList = MutableLiveData<List<Message>>()
-    lateinit var msgData : LiveData<List<PhishedMessages>>
     val msgList: LiveData<List<Message>>
         get() = _msgList
 
     val database = PhishingMessageDatabase.getDatabase(context)
 
+    val lifeDataMerger = MediatorLiveData<List<PhishedMessages>>()
+
     init {
         readSms()
-        getPhishingData()
+        viewModelScope.launch {
+            getPhishingData()
+        }
     }
 
-    // TODO: 25-01-2022 Function to get data from room
-
-    private fun getPhishingData(){
-        msgData = database.phishingMessagesDao().getPhishedMessages()
-    }
-
-
-    // TODO: 25-01-2022 Function to check if the id is in phishing 
-
-    fun readSms() {
-        val mutableMsgList = mutableListOf<Message>()
+    private fun readSms() {
         while (cursor.moveToNext()) {
             val msg = Message().apply {
                 _id = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms._ID))
@@ -47,21 +41,42 @@ class HomeViewModel(context: Context, private val cursor: Cursor): ViewModel() {
                 date_sent = cursor.getLong(cursor.getColumnIndexOrThrow(Telephony.Sms.DATE_SENT))
                 read = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.READ))
                 seen = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.SEEN))
-                replyPathPresent = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.REPLY_PATH_PRESENT))
+                replyPathPresent =
+                    cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.REPLY_PATH_PRESENT))
                 subject = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.SUBJECT))
                 body = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.BODY))
-                serviceCenter = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.SERVICE_CENTER))
+                serviceCenter =
+                    cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.SERVICE_CENTER))
                 creator = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.CREATOR))
                 type = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.TYPE))
             }
             mutableMsgList.add(msg)
         }
         _allMessages.value = mutableMsgList
-        _msgList.value = mutableMsgList.distinctBy {
+        cursor.close()
+    }
+
+    private suspend fun getPhishingData() {
+
+        val phishedData = withContext(Dispatchers.IO) {
+            val temp = database.phishingMessagesDao().getPhishedMessages()
+            Log.i(TAG, "getPhishingData: $temp.val")
+            temp
+        }
+
+        val msgListMutable = mutableMsgList.distinctBy {
             it.address
         }
-        Log.i(TAG, "readSms: ${_msgList.value.toString()}")
-        cursor.close()
+        val phishedDataMutable = phishedData
+        Log.i(TAG, "getPhishingData: $phishedDataMutable")
+        phishedDataMutable.forEach { phishedMessage ->
+            msgListMutable.find {
+                Log.i(TAG, "getPhishingData: ${phishedMessage.sender} == ${it.address}")
+                phishedMessage.sender == it.address
+            }?.type = -1
+        }
+
+        _msgList.value = msgListMutable
     }
 
     fun getList(address: String): Array<Message> {

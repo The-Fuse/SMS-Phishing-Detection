@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.provider.Telephony
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
@@ -13,11 +14,13 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.solvabit.phishingsmsdetector.R
 import com.solvabit.phishingsmsdetector.databinding.FragmentHomeBinding
 
+private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment() {
 
@@ -50,6 +53,7 @@ class HomeFragment : Fragment() {
             getString(R.string.phishing_notification_channel_id),
             getString(R.string.phishing_notification_channel_name)
         )
+
 
         return binding.root
     }

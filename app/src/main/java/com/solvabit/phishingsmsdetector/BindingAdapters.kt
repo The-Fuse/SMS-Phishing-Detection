@@ -20,10 +20,21 @@ fun bindData(recyclerView: RecyclerView, data: List<Message>?) {
     adapter.submitList(data)
 }
 
-@BindingAdapter("bindColor")
-fun bindColor(imageView: ImageView, string: String?) {
-    string?.let {
-        imageView.setColorFilter(getColor(string))
+@BindingAdapter("bindSenderImage")
+fun bindSenderImage(imageView: ImageView, message: Message?) {
+    message?.let {
+        Log.i(TAG, "bindSenderImage: ${message.type}")
+        when(message.type) {
+            -1 -> {
+                imageView.setImageResource(R.drawable.warning_icon)
+                imageView.clearColorFilter()
+            }
+            else -> {
+                imageView.setImageResource(R.drawable.ic_baseline_account_circle_24)
+                imageView.setColorFilter(getColor(message.address))
+            }
+        }
+
     }
 }
 

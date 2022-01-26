@@ -15,8 +15,8 @@ interface MessagesDao {
     @Delete
     suspend fun deletePhishedMessages(phishedMessages: PhishedMessages)
 
-    @Query("SELECT * from messages")
-    fun getPhishedMessages(): LiveData<List<PhishedMessages>>
+    @Query("SELECT * from messages WHERE score < 50")
+    fun getPhishedMessages(): List<PhishedMessages>
 
     @Query("SELECT * from messages WHERE _id == :key")
     suspend fun getMessageFromId(key: String): PhishedMessages?

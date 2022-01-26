@@ -96,7 +96,9 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
                 }
             }
 
-            override fun onFailure(call: Call<Phishing>, t: Throwable) {}
+            override fun onFailure(call: Call<Phishing>, t: Throwable) {
+                Log.i(TAG, "onFailure this: ${t.message}")
+            }
         })
 
     }
