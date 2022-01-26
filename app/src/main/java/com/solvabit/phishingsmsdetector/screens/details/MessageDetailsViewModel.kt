@@ -17,10 +17,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Response
+import kotlin.properties.Delegates
 
 class MessageDetailsViewModel(val message: Message, val database: PhishingMessageDatabase) :
     ViewModel() {
 
+    private val _score = MutableLiveData<Int>()
+    val score : LiveData<Int>
+        get() = _score
     private val _hindiText = MutableLiveData<String>()
     val hindiText: LiveData<String>
         get() = _hindiText
@@ -67,13 +71,15 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
     private suspend fun getPhishingData(message: Message) {
 
         val msgData = withContext(Dispatchers.IO) {
-            Log.i(TAG, "withContext : ${message._id} ")
             database.phishingMessagesDao().getMessageFromId(message._id.toString())
         }
 
         Log.i(TAG, "outside withContext : ${msgData} ")
-        if (msgData == null)
+        if (msgData == null) {
             checkPhishing(message)
+        }else{
+            _score.value = msgData.score
+        }
     }
 
     private fun checkPhishing(message: Message) {
@@ -92,6 +98,8 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
                             reply?.result ?: false,
                             message.address
                         )
+                    _score.value = reply!!.score
+
                     database.phishingMessagesDao().insertPhishedMessages(phishedMessage)
                 }
             }

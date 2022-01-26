@@ -77,7 +77,7 @@
             app:bindTextColor="@{message.read}"
             app:layout_constraintEnd_toStartOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="23:05" />
+            tools:text="23:05 PM" />
 
         <ImageView
             android:id="@+id/imageView2"

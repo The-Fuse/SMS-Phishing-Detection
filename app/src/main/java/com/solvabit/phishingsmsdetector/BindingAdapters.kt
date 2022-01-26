@@ -9,10 +9,18 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.solvabit.phishingsmsdetector.models.Message
 import com.solvabit.phishingsmsdetector.models.Thumbnails
 import com.solvabit.phishingsmsdetector.screens.home.HomeAdapter
 import java.util.*
+import kotlin.collections.ArrayList
 
 @BindingAdapter("bindSenderData")
 fun bindData(recyclerView: RecyclerView, data: List<Message>?) {
@@ -57,6 +65,55 @@ fun bindTextColor(textView: TextView, int: Int?) {
             }
         }
     }
+}
+
+@BindingAdapter("setBarChart")
+fun bindBarChart(barChart: BarChart, score: Int) {
+    val entries: ArrayList<BarEntry> = ArrayList()
+    val x = score.toFloat()
+    val y = 100-x
+    entries.add(BarEntry(4f, y))
+    entries.add(BarEntry(3f, x))
+
+//    val labels = arrayOf( "Phished", "Safe")
+//    val xAxis: XAxis = barChart.xAxis
+//    xAxis.setCenterAxisLabels(false)
+//    xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
+//    xAxis.axisMinimum = 0.01f
+//    xAxis.valueFormatter = IndexAxisValueFormatter(labels)
+
+    val barDataSet = BarDataSet(entries,"")
+    barDataSet.setColors(*ColorTemplate.PASTEL_COLORS)
+
+    val data = BarData(barDataSet)
+    barChart.data = data
+
+    barChart.axisLeft.axisMinimum = 0f
+
+    //hide grid lines
+    barChart.axisLeft.setDrawGridLines(false)
+    barChart.axisLeft.setDrawAxisLine(false)
+    barChart.xAxis.setDrawGridLines(false)
+    barChart.xAxis.setDrawAxisLine(false)
+
+    barChart.axisLeft.isEnabled = false
+    barChart.xAxis.isEnabled = false
+    //remove right y-axis
+    barChart.axisRight.isEnabled = false
+
+    //remove legend
+    barChart.legend.isEnabled = false
+
+
+    //remove description label
+    barChart.description.isEnabled = false
+
+
+    //add animation
+   // barChart.animateY(3000)
+
+    //draw chart
+    barChart.invalidate()
 }
 
 @BindingAdapter("imageThumbnail")
