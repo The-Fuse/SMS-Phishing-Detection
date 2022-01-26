@@ -9,14 +9,11 @@ import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-
-
-
 class SplashScreen : AppCompatActivity() {
     private var PERMISSIONS_CODE = 200
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
+
         checkSmsPermission()
     }
 
