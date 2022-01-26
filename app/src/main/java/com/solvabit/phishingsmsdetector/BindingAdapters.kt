@@ -43,7 +43,6 @@ fun getColor(string: String): Int {
 @BindingAdapter("bindTextColor")
 fun bindTextColor(textView: TextView, int: Int?) {
     int?.let {
-        Log.i(TAG, "bindTextColor: $it")
         when(it) {
             0 -> {
                 textView.setTextColor(Color.parseColor("#000000"))
@@ -51,6 +50,7 @@ fun bindTextColor(textView: TextView, int: Int?) {
             }
             else -> {
                 textView.setTextColor(Color.parseColor("#99000000"))
+                textView.setTypeface(null, Typeface.NORMAL)
             }
         }
     }
@@ -112,6 +112,21 @@ fun bindImageThumbnail(imgView: ImageView, thumbnails: Thumbnails?) {
         Glide.with(imgView.context)
             .load(imgUri)
             .into(imgView)
+    }
+}
+
+@BindingAdapter("bindFormatDate")
+fun bindDate(textView: TextView, date: Long?) {
+    date?.let {
+        val messageDate = Date(date).toString()
+        val todayDate = Calendar.getInstance().time.toString()
+
+        if(messageDate.substring(0, 10) == todayDate.substring(0, 10))
+            textView.text = messageDate.substring(11, 16)
+        else
+            textView.text = messageDate.substring(4, 10)
+
+
     }
 }
 

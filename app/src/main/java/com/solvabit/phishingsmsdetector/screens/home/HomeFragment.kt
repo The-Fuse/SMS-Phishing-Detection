@@ -1,32 +1,22 @@
 package com.solvabit.phishingsmsdetector.screens.home
 
-import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.content.pm.PackageManager
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Telephony
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.EditText
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.core.view.MenuItemCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.solvabit.phishingsmsdetector.api.PhishingService
 import androidx.navigation.fragment.findNavController
 import com.solvabit.phishingsmsdetector.R
 import com.solvabit.phishingsmsdetector.databinding.FragmentHomeBinding
-import com.solvabit.phishingsmsdetector.models.Phishing
-import com.solvabit.phishingsmsdetector.models.Phishing_Message
-import retrofit2.Call
-import retrofit2.Response
 
 
 class HomeFragment : Fragment() {
@@ -54,12 +44,40 @@ class HomeFragment : Fragment() {
 
         binding.recyclerViewSender.adapter = adapter
 
+        setHasOptionsMenu(true)
+
         createChannel(
             getString(R.string.phishing_notification_channel_id),
             getString(R.string.phishing_notification_channel_name)
         )
 
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_menu, menu)
+
+        val searchItem: MenuItem = menu.findItem(R.id.action_search)
+        if(searchItem!=null) {
+            val searchView = MenuItemCompat.getActionView(searchItem) as SearchView
+
+            val searchPlate = searchView.findViewById(androidx.appcompat.R.id.search_src_text) as EditText
+            searchPlate.hint = "Search"
+//            val searchPlateView: View =
+//                searchView.findViewById(androidx.appcompat.R.id.search_plate)
+
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    Toast.makeText(context, query, Toast.LENGTH_SHORT).show()
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            })
+        }
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun createChannel(channelId: String, channelName: String) {
