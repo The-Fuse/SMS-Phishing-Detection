@@ -1,33 +1,42 @@
 package com.solvabit.phishingsmsdetector.screens.home
 
-import android.content.ContentResolver
+import android.content.Context
 import android.database.Cursor
 import android.provider.Telephony
 import android.util.Log
-import androidx.core.database.getLongOrNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.solvabit.phishingsmsdetector.database.PhishedMessages
+import com.solvabit.phishingsmsdetector.database.PhishingMessageDatabase
 import com.solvabit.phishingsmsdetector.models.Message
 
-class HomeViewModel(private val contentResolver: ContentResolver): ViewModel() {
+class HomeViewModel(context: Context, private val cursor: Cursor): ViewModel() {
 
+    private val _allMessages = MutableLiveData<List<Message>>()
     private val _msgList = MutableLiveData<List<Message>>()
+    lateinit var msgData : LiveData<List<PhishedMessages>>
     val msgList: LiveData<List<Message>>
         get() = _msgList
 
+    val database = PhishingMessageDatabase.getDatabase(context)
 
     init {
         readSms()
+        getPhishingData()
     }
 
-    private fun readSms()
-    {
-        val cursor = contentResolver.query(
-            Telephony.Sms.CONTENT_URI,
-            null, null, null, null
-        ) ?: return
+    // TODO: 25-01-2022 Function to get data from room
 
+    private fun getPhishingData(){
+        msgData = database.phishingMessagesDao().getPhishedMessages()
+    }
+
+
+    // TODO: 25-01-2022 Function to check if the id is in phishing 
+
+    fun readSms() {
         val mutableMsgList = mutableListOf<Message>()
         while (cursor.moveToNext()) {
             val msg = Message().apply {
@@ -47,11 +56,18 @@ class HomeViewModel(private val contentResolver: ContentResolver): ViewModel() {
             }
             mutableMsgList.add(msg)
         }
+        _allMessages.value = mutableMsgList
         _msgList.value = mutableMsgList.distinctBy {
             it.address
         }
         Log.i(TAG, "readSms: ${_msgList.value.toString()}")
         cursor.close()
+    }
+
+    fun getList(address: String): Array<Message> {
+        return _allMessages.value?.filter {
+            it.address == address
+        }?.toTypedArray() ?: arrayOf()
     }
 
     companion object {

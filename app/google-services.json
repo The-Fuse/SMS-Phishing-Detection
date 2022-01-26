@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "479459183672",
+    "project_id": "phishing-6607c",
+    "storage_bucket": "phishing-6607c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:479459183672:android:9659c6977e164d4994aacd",
+        "android_client_info": {
+          "package_name": "com.solvabit.phishingsmsdetector"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "479459183672-mg61fbml9tdgomnblmes3htr1t137h0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl09NQaElTIXvJ6qpRb6p0FtmRiTxgBzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "479459183672-mg61fbml9tdgomnblmes3htr1t137h0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
