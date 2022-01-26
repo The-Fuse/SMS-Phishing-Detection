@@ -36,7 +36,8 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
     }
 
     private fun initializeYoutubeData() {
-        val ytAPI = PhishingService.youtubeAPInstance.getYoutubeVideos(message.body)
+        Log.i(TAG, "initializeYoutubeData: ${message.body.take(100)}")
+        val ytAPI = PhishingService.youtubeAPInstance.getYoutubeVideos(message.body.take(100))
         ytAPI.enqueue(object : retrofit2.Callback<YoutubeData> {
             override fun onResponse(call: Call<YoutubeData>, response: Response<YoutubeData>) {
                 _youtubeList.value = response.body()?.items

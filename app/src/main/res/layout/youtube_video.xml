@@ -4,18 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="item"
+            type="com.solvabit.phishingsmsdetector.models.Items" />
+        <variable
+            name="clickListener"
+            type="com.solvabit.phishingsmsdetector.screens.details.YoutubeListener" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(item)}"
         android:padding="8dp">
 
         <ImageView
             android:id="@+id/youtube_thumbnail"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            app:imageThumbnail="@{item.snippet.thumbnails}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,6 +37,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:maxLines="1"
+            android:text="@{item.snippet.title}"
             app:layout_constraintBottom_toTopOf="@+id/youtube_subText_textView"
             app:layout_constraintStart_toEndOf="@+id/youtube_thumbnail"
             app:layout_constraintTop_toTopOf="@+id/youtube_thumbnail"
@@ -41,6 +50,7 @@
             android:textColor="#464949"
             android:textSize="12sp"
             android:maxLines="2"
+            android:text="@{item.snippet.description}"
             app:layout_constraintBottom_toBottomOf="@+id/youtube_thumbnail"
             app:layout_constraintStart_toStartOf="@+id/youtube_title_textView"
             app:layout_constraintTop_toBottomOf="@+id/youtube_title_textView"

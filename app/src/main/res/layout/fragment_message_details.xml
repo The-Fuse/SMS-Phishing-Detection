@@ -93,14 +93,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/hindi_constraint_layout" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view_sender"
+                    android:id="@+id/recycler_view_youtube"
                     android:background="@color/white"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
                     android:scrollbars="vertical"
                     android:layout_marginTop="12dp"
-                    app:bindSenderData="@{viewModel.youtubeList}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="@+id/hindi_constraint_layout"
                     app:layout_constraintStart_toStartOf="@+id/hindi_constraint_layout"

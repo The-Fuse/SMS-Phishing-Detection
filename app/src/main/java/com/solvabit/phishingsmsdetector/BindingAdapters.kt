@@ -5,9 +5,12 @@ import android.graphics.Typeface
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.solvabit.phishingsmsdetector.models.Message
+import com.solvabit.phishingsmsdetector.models.Thumbnails
 import com.solvabit.phishingsmsdetector.screens.home.HomeAdapter
 import java.util.*
 
@@ -42,6 +45,16 @@ fun bindTextColor(textView: TextView, int: Int?) {
                 textView.setTextColor(Color.parseColor("#99000000"))
             }
         }
+    }
+}
+
+@BindingAdapter("imageThumbnail")
+fun bindImageThumbnail(imgView: ImageView, thumbnails: Thumbnails?) {
+    thumbnails?.let {
+        val imgUri = thumbnails.default.url.toUri().buildUpon().scheme("https").build()
+        Glide.with(imgView.context)
+            .load(imgUri)
+            .into(imgView)
     }
 }
 
