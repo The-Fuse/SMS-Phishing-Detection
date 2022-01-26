@@ -14,7 +14,10 @@ import com.solvabit.phishingsmsdetector.database.PhishingMessageDatabase
 import com.solvabit.phishingsmsdetector.models.Message
 import com.solvabit.phishingsmsdetector.models.Phishing
 import com.solvabit.phishingsmsdetector.models.Phishing_Message
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Response
 
@@ -26,27 +29,34 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
         get() = _hindiText
 
     init {
-        getPhishingData(message)
         initializeTranslation(message.body)
-    }
-
-    private fun getPhishingData(message: Message) {
-            val msgData = database.phishingMessagesDao().getPhishedMessages().value
-            if (msgData != null) {
-                for (i in msgData){
-                    if (i._id.toString() == message._id.toString()){
-                        msgExist = true
-                    }
-                }
-
-            }
-            Log.d("error",msgExist.toString())
-            if (!msgExist){
+        when(message._id) {
+            -1 -> {
                 checkPhishing(message)
+                Log.i(TAG, "when : ${message._id} ")
             }
+            else -> viewModelScope.launch {
+                Log.i(TAG, "when : ${message._id} ")
+                getPhishingData(message)
+            }
+        }
     }
+
+    private suspend fun getPhishingData(message: Message) {
+
+        val msgData = withContext(Dispatchers.IO) {
+            Log.i(TAG, "withContext : ${message._id} ")
+            database.phishingMessagesDao().getMessageFromId(message._id.toString())
+        }
+
+        Log.i(TAG, "outside withContext : ${msgData} ")
+        if(msgData==null)
+            checkPhishing(message)
+    }
+
     private fun checkPhishing(message: Message) {
 
+        Log.i(TAG, "inside checkPhishing : ${message._id} ")
         val text = message.body
         val phishingMessage = Phishing_Message(text)
         val phishingAPI = PhishingService.phishingAPInstance.checkPhishing(phishingMessage)
