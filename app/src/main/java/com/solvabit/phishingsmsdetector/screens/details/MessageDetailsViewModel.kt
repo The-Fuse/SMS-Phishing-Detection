@@ -11,26 +11,48 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOption
 import com.solvabit.phishingsmsdetector.api.PhishingService
 import com.solvabit.phishingsmsdetector.database.PhishedMessages
 import com.solvabit.phishingsmsdetector.database.PhishingMessageDatabase
-import com.solvabit.phishingsmsdetector.models.Message
-import com.solvabit.phishingsmsdetector.models.Phishing
-import com.solvabit.phishingsmsdetector.models.Phishing_Message
+import com.solvabit.phishingsmsdetector.models.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Response
 
-class MessageDetailsViewModel(val message: Message, val database: PhishingMessageDatabase) : ViewModel() {
+class MessageDetailsViewModel(val message: Message, val database: PhishingMessageDatabase) :
+    ViewModel() {
 
-    var msgExist: Boolean = false
     private val _hindiText = MutableLiveData<String>()
     val hindiText: LiveData<String>
         get() = _hindiText
 
+    private val _youtubeList = MutableLiveData<List<Items>>()
+    val youtubeList: LiveData<List<Items>>
+        get() = _youtubeList
+
     init {
         initializeTranslation(message.body)
-        when(message._id) {
+        initializeYoutubeData()
+        initializeCheckDataExists()
+    }
+
+    private fun initializeYoutubeData() {
+        Log.i(TAG, "initializeYoutubeData: ${message.body.take(100)}")
+        val ytAPI = PhishingService.youtubeAPInstance.getYoutubeVideos(message.body.take(100))
+        ytAPI.enqueue(object : retrofit2.Callback<YoutubeData> {
+            override fun onResponse(call: Call<YoutubeData>, response: Response<YoutubeData>) {
+                _youtubeList.value = response.body()?.items
+                Log.i(TAG, "onResponse: ${_youtubeList.value}")
+            }
+
+            override fun onFailure(call: Call<YoutubeData>, t: Throwable) {
+                Log.i(TAG, "onFailure: ${t.message}")
+            }
+        })
+
+    }
+
+    private fun initializeCheckDataExists() {
+        when (message._id) {
             -1 -> {
                 checkPhishing(message)
                 Log.i(TAG, "when : ${message._id} ")
@@ -50,12 +72,11 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
         }
 
         Log.i(TAG, "outside withContext : ${msgData} ")
-        if(msgData==null)
+        if (msgData == null)
             checkPhishing(message)
     }
 
     private fun checkPhishing(message: Message) {
-
         Log.i(TAG, "inside checkPhishing : ${message._id} ")
         val text = message.body
         val phishingMessage = Phishing_Message(text)
@@ -64,18 +85,18 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
             override fun onResponse(call: Call<Phishing>, response: Response<Phishing>) {
                 val reply = response.body()
                 viewModelScope.launch {
-
                     val phishedMessage =
-                        PhishedMessages(message._id.toString(), reply?.score ?: 0, reply?.result ?: false, message.address)
+                        PhishedMessages(
+                            message._id.toString(),
+                            reply?.score ?: 0,
+                            reply?.result ?: false,
+                            message.address
+                        )
                     database.phishingMessagesDao().insertPhishedMessages(phishedMessage)
                 }
-
             }
 
-            override fun onFailure(call: Call<Phishing>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onFailure(call: Call<Phishing>, t: Throwable) {}
         })
 
     }
