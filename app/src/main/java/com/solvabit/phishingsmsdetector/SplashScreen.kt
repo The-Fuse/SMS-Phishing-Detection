@@ -33,11 +33,8 @@ class SplashScreen : AppCompatActivity() {
             Log.d("adnan", "checkForSmsReceivePermissions: Denied");
 
             // Request permissions from user
-            ActivityCompat.requestPermissions(
-                this,
-                permission,
-                PERMISSIONS_CODE
-            );
+            val intent = Intent(this,OnBoarding::class.java)
+            startActivity(intent)
         }
     }
 
