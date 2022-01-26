@@ -84,9 +84,10 @@
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/barChart"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    setBarChart="phased"
-                    android:layout_margin="32dp"
+                    android:layout_height="200dp"
+                    setBarChart="@{viewModel.score}"
+                    android:layout_margin="16dp"
+                    android:background="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/hindi_constraint_layout" />

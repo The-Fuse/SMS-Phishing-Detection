@@ -14,7 +14,6 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.solvabit.phishingsmsdetector.database.PhishedMessages
 import com.solvabit.phishingsmsdetector.models.Message
 import com.solvabit.phishingsmsdetector.models.Thumbnails
 import com.solvabit.phishingsmsdetector.screens.home.HomeAdapter
@@ -55,21 +54,21 @@ fun bindTextColor(textView: TextView, int: Int?) {
 }
 
 @BindingAdapter("setBarChart")
-fun bindBarChart(barChart: BarChart, result: String) {
+fun bindBarChart(barChart: BarChart, score: Int) {
     val entries: ArrayList<BarEntry> = ArrayList()
-    entries.add(BarEntry(1f, 4f))
-    entries.add(BarEntry(2f, 10f))
-    entries.add(BarEntry(3f, 2f))
-    entries.add(BarEntry(4f, 15f))
-    entries.add(BarEntry(5f, 13f))
-    entries.add(BarEntry(6f, 2f))
+    val x = score.toFloat()
+    val y = 100-x
+    entries.add(BarEntry(4f, y))
+    entries.add(BarEntry(3f, x))
 
     val barDataSet = BarDataSet(entries, "")
-    barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+    barDataSet.setColors(*ColorTemplate.PASTEL_COLORS)
 
     val data = BarData(barDataSet)
     barChart.data = data
 
+    barChart.axisLeft.axisMinimum = 0f
+    barChart.axisRight.axisMinimum = 0f
 
     //hide grid lines
     barChart.axisLeft.setDrawGridLines(false)
@@ -87,9 +86,9 @@ fun bindBarChart(barChart: BarChart, result: String) {
     barChart.description.isEnabled = false
 
 
-    //add animation
-    barChart.animateY(3000)
 
+    //add animation
+   // barChart.animateY(3000)
 
     //draw chart
     barChart.invalidate()
