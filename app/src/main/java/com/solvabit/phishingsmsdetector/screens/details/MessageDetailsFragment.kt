@@ -47,8 +47,15 @@ class MessageDetailsFragment : Fragment() {
 
         viewModel.youtubeList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it.subList(0,5))
-                Log.i(TAG, "onCreateView: $it")
+                if(it.isNullOrEmpty()) {
+                    Log.i(TAG, "onCreateView: No Videos found")
+                }
+                else {
+                    if(it.size<5)
+                        adapter.submitList(it)
+                    else
+                        adapter.submitList(it.subList(0,5))
+                }
             }
         })
 
