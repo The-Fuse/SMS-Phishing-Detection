@@ -14,16 +14,21 @@ abstract class PhishingMessageDatabase : RoomDatabase() {
         private var INSTANCE: PhishingMessageDatabase? = null
 
         fun getDatabase(context: Context): PhishingMessageDatabase {
-            if (INSTANCE == null) {
-                synchronized(this) {
-                    INSTANCE = Room.databaseBuilder(
+            synchronized(this) {
+                var instance = INSTANCE
+
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
                         context.applicationContext,
                         PhishingMessageDatabase::class.java,
                         "messagesDB"
-                    ).build()
+                    )
+                        .fallbackToDestructiveMigration()
+                        .build()
+                    INSTANCE = instance
                 }
+                return instance
             }
-            return INSTANCE!!
         }
     }
 }
