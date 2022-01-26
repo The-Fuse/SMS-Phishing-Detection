@@ -16,6 +16,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@drawable/cardsbg"
         android:layout_marginBottom="12dp"
         android:onClick="@{() -> clickListener.onClick(message)}">
 
@@ -35,8 +37,10 @@
             android:background="@drawable/message_bg"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:fontFamily="@font/lato"
             android:layout_marginEnd="40dp"
             android:text="@{message.body}"
+            android:autoLink="all"
             android:textSize="16sp"
             android:padding="12dp"
             android:textColor="@color/black"
