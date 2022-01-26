@@ -10,14 +10,17 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import com.solvabit.phishingsmsdetector.models.Message
 import com.solvabit.phishingsmsdetector.models.Thumbnails
 import com.solvabit.phishingsmsdetector.screens.home.HomeAdapter
 import java.util.*
+import kotlin.collections.ArrayList
 
 @BindingAdapter("bindSenderData")
 fun bindData(recyclerView: RecyclerView, data: List<Message>?) {
@@ -61,6 +64,11 @@ fun bindBarChart(barChart: BarChart, score: Int) {
     entries.add(BarEntry(4f, y))
     entries.add(BarEntry(3f, x))
 
+    val labels : ArrayList<String> = ArrayList()
+    labels.add("Phished")
+    labels.add("Safe")
+
+    barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
     val barDataSet = BarDataSet(entries, "")
     barDataSet.setColors(*ColorTemplate.PASTEL_COLORS)
 
@@ -68,13 +76,14 @@ fun bindBarChart(barChart: BarChart, score: Int) {
     barChart.data = data
 
     barChart.axisLeft.axisMinimum = 0f
-    barChart.axisRight.axisMinimum = 0f
 
     //hide grid lines
     barChart.axisLeft.setDrawGridLines(false)
+    barChart.axisLeft.setDrawAxisLine(false)
     barChart.xAxis.setDrawGridLines(false)
     barChart.xAxis.setDrawAxisLine(false)
 
+    barChart.axisLeft.isEnabled = false
     //remove right y-axis
     barChart.axisRight.isEnabled = false
 
@@ -84,7 +93,6 @@ fun bindBarChart(barChart: BarChart, score: Int) {
 
     //remove description label
     barChart.description.isEnabled = false
-
 
 
     //add animation
