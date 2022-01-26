@@ -60,6 +60,8 @@ class SplashScreen : AppCompatActivity() {
                     // At the same time, respect the user's decision. Don't link to
                     // system settings in an effort to convince the user to change
                     // their decision.
+                    val intent = Intent(this,OnBoarding::class.java)
+                    startActivity(intent)
 
                 }
                 return
