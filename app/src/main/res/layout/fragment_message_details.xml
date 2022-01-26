@@ -81,16 +81,26 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    setBarChart="phased"
+                    android:layout_margin="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/hindi_constraint_layout" />
+
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:text="Relevent Youtube Videos"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    android:layout_marginTop="12dp"
                     app:layout_constraintStart_toStartOf="@+id/hindi_constraint_layout"
-                    app:layout_constraintTop_toBottomOf="@+id/hindi_constraint_layout" />
+                    app:layout_constraintTop_toBottomOf="@+id/barChart" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_youtube"

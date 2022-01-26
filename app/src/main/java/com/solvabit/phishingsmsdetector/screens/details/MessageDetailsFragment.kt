@@ -63,6 +63,7 @@ class MessageDetailsFragment : Fragment() {
         return binding.root
     }
 
+
     fun watchYoutubeVideo(context: Context, id: String) {
         val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
         val webIntent = Intent(
