@@ -64,12 +64,14 @@ fun bindBarChart(barChart: BarChart, score: Int) {
     entries.add(BarEntry(4f, y))
     entries.add(BarEntry(3f, x))
 
-    val labels : ArrayList<String> = ArrayList()
-    labels.add("Phished")
-    labels.add("Safe")
+//    val labels = arrayOf( "Phished", "Safe")
+//    val xAxis: XAxis = barChart.xAxis
+//    xAxis.setCenterAxisLabels(false)
+//    xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
+//    xAxis.axisMinimum = 0.01f
+//    xAxis.valueFormatter = IndexAxisValueFormatter(labels)
 
-    barChart.xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-    val barDataSet = BarDataSet(entries, "")
+    val barDataSet = BarDataSet(entries,"")
     barDataSet.setColors(*ColorTemplate.PASTEL_COLORS)
 
     val data = BarData(barDataSet)
@@ -84,6 +86,7 @@ fun bindBarChart(barChart: BarChart, score: Int) {
     barChart.xAxis.setDrawAxisLine(false)
 
     barChart.axisLeft.isEnabled = false
+    barChart.xAxis.isEnabled = false
     //remove right y-axis
     barChart.axisRight.isEnabled = false
 

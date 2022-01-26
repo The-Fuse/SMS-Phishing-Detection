@@ -81,17 +81,57 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/barChart"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/graph"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    setBarChart="@{viewModel.score}"
-                    android:layout_margin="16dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
                     android:background="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/hindi_constraint_layout" />
+                    app:layout_constraintTop_toBottomOf="@+id/hindi_constraint_layout">
 
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barChart"
+                        setBarChart="@{viewModel.score}"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_margin="16dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="@color/white"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Safe"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/textView4"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/barChart" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Phished"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/textView3"
+                        app:layout_constraintTop_toBottomOf="@+id/barChart" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
@@ -101,7 +141,7 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="@+id/hindi_constraint_layout"
-                    app:layout_constraintTop_toBottomOf="@+id/barChart" />
+                    app:layout_constraintTop_toBottomOf="@+id/graph" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_youtube"
