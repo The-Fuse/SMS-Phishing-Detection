@@ -39,6 +39,8 @@
             android:text="@{message.body}"
             android:textSize="16sp"
             android:padding="12dp"
+            android:autoLink="all"
+            android:linksClickable="true"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
