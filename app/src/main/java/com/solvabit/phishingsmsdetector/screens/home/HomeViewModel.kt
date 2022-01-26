@@ -37,7 +37,6 @@ class HomeViewModel(context: Context, private val cursor: Cursor): ViewModel() {
     // TODO: 25-01-2022 Function to check if the id is in phishing 
 
     fun readSms() {
-
         val mutableMsgList = mutableListOf<Message>()
         while (cursor.moveToNext()) {
             val msg = Message().apply {

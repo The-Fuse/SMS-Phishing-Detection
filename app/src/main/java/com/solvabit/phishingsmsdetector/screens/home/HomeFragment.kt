@@ -51,6 +51,7 @@ class HomeFragment : Fragment() {
         val adapter = HomeAdapter(HomeAdapterListener {
             this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToMessagesFragment(viewModel.getList(it.address)))
         })
+
         binding.recyclerViewSender.adapter = adapter
 
         createChannel(
@@ -84,27 +85,5 @@ class HomeFragment : Fragment() {
         }
     }
 
-
-    private fun checkSmsPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                "android.permission.RECEIVE_SMS"
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            // App has permissions to listen incoming SMS messages
-            Log.d("adnan", "checkForSmsReceivePermissions: Allowed");
-            viewModel.readSms()
-        } else {
-            // App don't have permissions to listen incoming SMS messages
-            Log.d("adnan", "checkForSmsReceivePermissions: Denied");
-
-            // Request permissions from user
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.RECEIVE_SMS),
-                200
-            );
-        }
-    }
 
 }
