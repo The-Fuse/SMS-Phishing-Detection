@@ -43,7 +43,6 @@
             android:autoLink="all"
             android:textSize="16sp"
             android:padding="12dp"
-            android:autoLink="all"
             android:linksClickable="false"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
