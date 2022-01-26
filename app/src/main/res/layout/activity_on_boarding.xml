@@ -13,7 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="212dp"
-        android:fontFamily="@font/roboto_bold"
         android:padding="16dp"
         android:text="Please enable the permission, without it we can't check the phishing!"
         android:textAlignment="center"
