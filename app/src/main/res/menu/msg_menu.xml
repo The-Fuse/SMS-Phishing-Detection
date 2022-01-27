@@ -5,7 +5,7 @@
         android:id="@+id/report_group">
         <item
             android:id="@+id/action_item_one"
-            android:icon="@drawable/warning_icon"
+            android:icon="@drawable/ic_baseline_report_24"
             android:title="Report"
             app:showAsAction="always|withText"/>
     </group>

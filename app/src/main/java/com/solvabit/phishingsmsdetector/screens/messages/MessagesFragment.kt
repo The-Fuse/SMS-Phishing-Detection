@@ -2,6 +2,8 @@ package com.solvabit.phishingsmsdetector.screens.messages
 
 import android.os.Bundle
 import android.util.Log
+import android.telephony.SmsManager
+import android.text.TextUtils
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -68,8 +70,24 @@ class MessagesFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.groupId) {
-            R.id.report_group -> Toast.makeText(context, "Reporting now", Toast.LENGTH_SHORT).show()
+            R.id.report_group -> sendSMS()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun sendSMS() {
+        val myNumber: String = "1909"
+        val myMsg: String = "This message is sent by this no and message is this, please check it!"
+        if (myNumber == "" || myMsg == "") {
+            Toast.makeText(context, "Field cannot be empty", Toast.LENGTH_SHORT).show()
+        } else {
+            if (TextUtils.isDigitsOnly(myNumber)) {
+                val smsManager: SmsManager = SmsManager.getDefault()
+                smsManager.sendTextMessage(myNumber, null, myMsg, null, null)
+                Toast.makeText(context, "Message Sent", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Please enter the correct number", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
