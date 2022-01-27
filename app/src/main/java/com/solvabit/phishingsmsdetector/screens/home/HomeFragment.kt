@@ -84,8 +84,6 @@ class HomeFragment : Fragment() {
 
             val searchPlate = searchView.findViewById(androidx.appcompat.R.id.search_src_text) as EditText
             searchPlate.hint = "Search"
-//            val searchPlateView: View =
-//                searchView.findViewById(androidx.appcompat.R.id.search_plate)
 
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -94,6 +92,9 @@ class HomeFragment : Fragment() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
+                    newText?.let {
+                        viewModel.selectCompany(newText)
+                    }
                     return false
                 }
             })
