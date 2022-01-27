@@ -46,9 +46,10 @@ class MessageReceiver : BroadcastReceiver() {
                 phishingAPI.enqueue(object : retrofit2.Callback<Phishing> {
                     override fun onResponse(call: Call<Phishing>, response: Response<Phishing>) {
                         val result = response.body()
+                        val point = 100 - (result?.score!!) ?: 0
                         notificationMessage.apply {
                             this.result = result?.result ?: false
-                            this.score = result?.score ?: 0
+                            this.score = point
                         }
                         Handler(Looper.getMainLooper()).postDelayed(
                             {
