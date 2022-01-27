@@ -57,11 +57,11 @@ fun bindTextColor(textView: TextView, int: Int?) {
         when(it) {
             0 -> {
                 textView.setTextColor(Color.parseColor("#000000"))
-                textView.setTypeface(null, Typeface.BOLD)
+
             }
             else -> {
                 textView.setTextColor(Color.parseColor("#99000000"))
-                textView.setTypeface(null, Typeface.NORMAL)
+
             }
         }
     }
