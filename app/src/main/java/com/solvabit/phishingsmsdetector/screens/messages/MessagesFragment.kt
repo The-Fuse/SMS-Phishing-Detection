@@ -38,10 +38,10 @@ class MessagesFragment : Fragment() {
         viewModel.isPhished.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(it) {
-                    setHasOptionsMenu(false)
+                    setHasOptionsMenu(true)
                 }
                 else {
-                    setHasOptionsMenu(true)
+                    setHasOptionsMenu(false)
                 }
             }
         })

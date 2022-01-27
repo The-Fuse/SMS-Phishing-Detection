@@ -1,6 +1,7 @@
 package com.solvabit.phishingsmsdetector.screens.messages
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,8 @@ import com.solvabit.phishingsmsdetector.models.Message
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+private const val TAG = "MessagesViewModel"
 
 class MessagesViewModel(val messages: List<Message>,  context: Context): ViewModel() {
 
@@ -28,10 +31,21 @@ class MessagesViewModel(val messages: List<Message>,  context: Context): ViewMod
     val allPhishedMessagesList: LiveData<List<PhishedMessages>>
         get() = _allPhishedMessageList
 
+    private val _mostPhished = MutableLiveData<Message>()
+    val mostPhished : LiveData<Message>
+        get() = _mostPhished
+
     init {
         viewModelScope.launch {
             val isPhishedMutable = getPhishedSender()
-            _isPhished.value = isPhishedMutable==null || isPhishedMutable.score > 50
+            Log.i(TAG, "$isPhishedMutable: ")
+            if(isPhishedMutable == null) {
+                _isPhished.value = false
+            }
+            else {
+                if(isPhishedMutable.score < 50)
+                    _isPhished.value = true
+            }
         }
     }
 

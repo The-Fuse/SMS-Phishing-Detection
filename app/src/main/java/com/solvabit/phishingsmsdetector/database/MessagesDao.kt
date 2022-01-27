@@ -22,7 +22,7 @@ interface MessagesDao {
     @Query("SELECT * from messages WHERE _id == :key")
     suspend fun getMessageFromId(key: String): PhishedMessages?
 
-    @Query("SELECT * from messages WHERE sender == :sender ORDER BY score DESC LIMIT 1")
+    @Query("SELECT * from messages WHERE sender == :sender ORDER BY score ASC LIMIT 1")
     suspend fun getPhishedSender(sender: String): PhishedMessages?
 
     @Query("SELECT * from messages WHERE sender == :sender ORDER BY _id DESC")
