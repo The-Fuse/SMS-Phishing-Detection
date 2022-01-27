@@ -54,7 +54,6 @@ class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() 
             }
             mutableMsgList.add(msg)
         }
-        _allMessages.value = mutableMsgList
         cursor.close()
     }
 
@@ -70,7 +69,7 @@ class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() 
                 phishedMessage.sender == it.address
             }?.type = -1
         }
-
+        _allMessages.value = msgListMutable
         _msgList.value = msgListMutable
     }
 
@@ -78,6 +77,13 @@ class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() 
         return _allMessages.value?.filter {
             it.address == address
         }?.toTypedArray() ?: arrayOf()
+    }
+
+    fun selectCompany(query: String) {
+        val copyList = _allMessages.value
+        _msgList.value = copyList?.filter {
+            it.body.contains(query, true) || it.address.contains(query, true)
+        }
     }
 
     companion object {
