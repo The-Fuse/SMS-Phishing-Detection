@@ -24,13 +24,25 @@ class MessagesViewModel(val messages: List<Message>,  context: Context): ViewMod
     val isPhished: LiveData<Boolean>
         get() = _isPhished
 
+    private val _allPhishedMessageList = database.phishingMessagesDao().getAllPhishedMessagesOfSender(messages[0].address)
+    val allPhishedMessagesList: LiveData<List<PhishedMessages>>
+        get() = _allPhishedMessageList
 
     init {
-        _allMessages.value = messages.reversed()
         viewModelScope.launch {
             val isPhishedMutable = getPhishedSender()
             _isPhished.value = isPhishedMutable==null || isPhishedMutable.score > 50
         }
+    }
+
+    fun getPhishedList() {
+        val msgList = _allPhishedMessageList.value
+        msgList?.forEach { phishedMessage ->
+            messages.find {
+                it._id == phishedMessage._id.toInt()
+            }?.type = phishedMessage.score
+        }
+        _allMessages.value = messages.reversed()
     }
 
     suspend fun getPhishedSender(): PhishedMessages? {
