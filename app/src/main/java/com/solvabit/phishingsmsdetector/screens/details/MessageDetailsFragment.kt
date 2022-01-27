@@ -32,6 +32,7 @@ class MessageDetailsFragment : Fragment() {
     ): View? {
         binding = FragmentMessageDetailsBinding.inflate(layoutInflater)
 
+        Log.i(TAG, "onCreateView: ${args.message.address}")
         (activity as AppCompatActivity).supportActionBar?.title = args.message.address
 
         val database = PhishingMessageDatabase.getDatabase(requireContext())
@@ -64,6 +65,10 @@ class MessageDetailsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.title = args.message.address
+    }
 
     fun watchYoutubeVideo(context: Context, id: String) {
         val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$id"))
