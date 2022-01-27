@@ -87,6 +87,7 @@ class OnBoarding : AppCompatActivity() {
                     // in your app.
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
+                    finish()
                 } else {
                     // Explain to the user that the feature is unavailable because
                     // the features requires a permission that the user has denied.
