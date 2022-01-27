@@ -58,6 +58,7 @@ class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() 
     }
 
     fun refreshListPhishedData() {
+        _allMessages.value = mutableMsgList
         val msgListMutable = mutableMsgList.distinctBy {
             it.address
         }
@@ -69,7 +70,6 @@ class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() 
                 phishedMessage.sender == it.address
             }?.type = -1
         }
-        _allMessages.value = msgListMutable
         _msgList.value = msgListMutable
     }
 
