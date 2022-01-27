@@ -25,4 +25,7 @@ interface MessagesDao {
     @Query("SELECT * from messages WHERE sender == :sender ORDER BY score DESC LIMIT 1")
     suspend fun getPhishedSender(sender: String): PhishedMessages?
 
+    @Query("SELECT * from messages WHERE sender == :sender ORDER BY _id DESC")
+    fun getAllPhishedMessagesOfSender(sender: String): LiveData<List<PhishedMessages>>
+
 }
