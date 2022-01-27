@@ -25,7 +25,7 @@ import com.google.android.material.snackbar.Snackbar
 class OnBoarding : AppCompatActivity() {
     private lateinit var binding: ActivityOnBoardingBinding
     private var PERMISSIONS_CODE = 200
-    private val permission = arrayOf(Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
+    private val permission = arrayOf(Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS)
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
