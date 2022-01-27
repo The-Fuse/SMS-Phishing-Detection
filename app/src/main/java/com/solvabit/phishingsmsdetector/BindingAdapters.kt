@@ -61,7 +61,7 @@ fun bindTextColor(textView: TextView, int: Int?) {
             }
             else -> {
                 textView.setTextColor(Color.parseColor("#99000000"))
-                //textView.setTypeface(null, Typeface.NORMAL)
+                textView.setTypeface(null, Typeface.NORMAL)
             }
         }
     }

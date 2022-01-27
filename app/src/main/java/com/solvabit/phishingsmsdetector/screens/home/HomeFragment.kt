@@ -54,6 +54,12 @@ class HomeFragment : Fragment() {
             getString(R.string.phishing_notification_channel_name)
         )
 
+        viewModel.phishedList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                viewModel.refreshListPhishedData()
+                adapter.submitList(viewModel.msgList.value)
+            }
+        })
 
         return binding.root
     }
