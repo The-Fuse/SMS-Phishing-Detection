@@ -10,7 +10,7 @@ import retrofit2.http.*
 
 
 const val BASE_URL = "https://c0f4-2405-201-a407-28-16d6-2b5b-efb8-c040.ngrok.io/"
-const val yt_developer_key = "AIzaSyC30WdEEv2azB9iIDGZbTUKQ9V6_VR9jmc"
+const val yt_developer_key = "AIzaSyD3-rEEEWa3hIbHL7LcBb2tzq-JXIlliWM"
 
 interface PhishingAPI {
 
