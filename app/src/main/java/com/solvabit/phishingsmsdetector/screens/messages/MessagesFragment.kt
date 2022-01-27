@@ -8,12 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.solvabit.phishingsmsdetector.databinding.FragmentMessagesBinding
-import java.text.SimpleDateFormat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.solvabit.phishingsmsdetector.MainActivity
 import com.solvabit.phishingsmsdetector.R
-import java.util.*
 
 
 class MessagesFragment : Fragment() {
@@ -28,12 +25,22 @@ class MessagesFragment : Fragment() {
         binding = FragmentMessagesBinding.inflate(layoutInflater)
 
         (activity as AppCompatActivity).supportActionBar?.title = args.messages[0].address
-        setHasOptionsMenu(true)
 
-        val messagesViewModelFactory = MessagesViewModelFactory(args.messages.toList())
+        val messagesViewModelFactory = MessagesViewModelFactory(args.messages.toList(), requireContext())
         viewModel = ViewModelProvider(this, messagesViewModelFactory)[MessagesViewModel::class.java]
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        viewModel.isPhished.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it) {
+                    setHasOptionsMenu(false)
+                }
+                else {
+                    setHasOptionsMenu(true)
+                }
+            }
+        })
 
         val adapter = AllMessagesAdapter(MessagesListener {
             this.findNavController().navigate(
