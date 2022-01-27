@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.navigation.NavDeepLinkBuilder
@@ -18,42 +19,25 @@ private const val NOTIFICATION_ID = 0
 private val REQUEST_CODE = 0
 private val FLAGS = 0
 
+private const val TAG = "NotificationUtils"
+
 
 fun NotificationManager.sendNotification(message: NotificationMessage, applicationContext: Context) {
 
     val messageObj = Message()
     messageObj.body = message.body
     messageObj._id = message._id
+    messageObj.address = message.sender
+    Log.i(TAG, "sendNotification: ${message.sender}")
 
     val bundle = Bundle()
     bundle.putParcelable("message", messageObj)
     val contentIntent = NavDeepLinkBuilder(applicationContext)
+        .setComponentName(MainActivity::class.java)
         .setGraph(R.navigation.main_nav_graph)
         .setDestination(R.id.messageDetailsFragment)
         .setArguments(bundle)
         .createPendingIntent()
-
-//    val contentPendingIntent = PendingIntent.getActivity(
-//        applicationContext,
-//        NOTIFICATION_ID,
-//        contentIntent,
-//        PendingIntent.FLAG_UPDATE_CURRENT
-//    )
-//
-//    val eggImage = BitmapFactory.decodeResource(
-//        applicationContext.resources,
-//        R.drawable.cooked_egg
-//    )
-//    val bigPicStyle = NotificationCompat.BigPictureStyle()
-//        .bigPicture(eggImage)
-//        .bigLargeIcon(null)
-//
-//    val snoozeIntent = Intent(applicationContext, SnoozeReceiver::class.java)
-//    val snoozePendingIntent: PendingIntent = PendingIntent.getBroadcast(
-//        applicationContext,
-//        REQUEST_CODE,
-//        snoozeIntent,
-//        FLAGS)
 
     // Get the layouts to use in the custom notification
 

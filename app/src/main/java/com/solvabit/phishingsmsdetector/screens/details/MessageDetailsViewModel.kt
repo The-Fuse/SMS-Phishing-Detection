@@ -99,8 +99,8 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
                             message.address
                         )
                     _score.value = reply!!.score
-
-                    database.phishingMessagesDao().insertPhishedMessages(phishedMessage)
+                    if(message._id != -1)
+                        addPhishedDataToRoom(phishedMessage)
                 }
             }
 
@@ -109,6 +109,10 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
             }
         })
 
+    }
+
+    private suspend fun addPhishedDataToRoom(phishedMessage: PhishedMessages) {
+        database.phishingMessagesDao().insertPhishedMessages(phishedMessage)
     }
 
     private fun initializeTranslation(messageText: String) {
