@@ -1,9 +1,7 @@
 package com.solvabit.phishingsmsdetector.screens.messages
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -30,8 +28,7 @@ class MessagesFragment : Fragment() {
         binding = FragmentMessagesBinding.inflate(layoutInflater)
 
         (activity as AppCompatActivity).supportActionBar?.title = args.messages[0].address
-
-
+        setHasOptionsMenu(true)
 
         val messagesViewModelFactory = MessagesViewModelFactory(args.messages.toList())
         viewModel = ViewModelProvider(this, messagesViewModelFactory)[MessagesViewModel::class.java]
@@ -53,15 +50,15 @@ class MessagesFragment : Fragment() {
         return binding.root
     }
 
-}
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.msg_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
-
-private fun getDateTime(s: String): String? {
-    try {
-        val sdf = SimpleDateFormat("MM/dd/yyyy")
-        val netDate = Date(s.toLong() * 1000)
-        return sdf.format(netDate)
-    } catch (e: Exception) {
-        return e.toString()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.groupId) {
+            R.id.report_group -> Toast.makeText(context, "Reporting now", Toast.LENGTH_SHORT).show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
