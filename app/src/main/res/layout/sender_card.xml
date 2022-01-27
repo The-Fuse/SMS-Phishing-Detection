@@ -20,8 +20,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="10dp"
         android:background="?android:attr/selectableItemBackground"
         android:onClick="@{() -> clickListener.onClick(message)}">
 
@@ -40,11 +40,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="16dp"
-            android:textColor="@color/black"
             android:fontFamily="@font/lato_bold"
             android:text="@{message.address}"
+            android:textColor="@color/black"
             android:textSize="16sp"
             app:bindTextColor="@{message.read}"
             app:layout_constraintEnd_toStartOf="@+id/textView3"
