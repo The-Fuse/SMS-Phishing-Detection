@@ -91,14 +91,16 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
             override fun onResponse(call: Call<Phishing>, response: Response<Phishing>) {
                 val reply = response.body()
                 viewModelScope.launch {
+
+                    val point = 100- (reply?.score!!) ?: 0
                     val phishedMessage =
                         PhishedMessages(
                             message._id.toString(),
-                            reply?.score ?: 0,
+                            point,
                             reply?.result ?: false,
                             message.address
                         )
-                    _score.value = reply!!.score
+                    _score.value = point
                     if(message._id != -1)
                         addPhishedDataToRoom(phishedMessage)
                 }

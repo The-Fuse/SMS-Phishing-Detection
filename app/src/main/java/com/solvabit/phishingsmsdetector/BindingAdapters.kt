@@ -4,8 +4,10 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.util.Log
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -27,6 +29,15 @@ fun bindData(recyclerView: RecyclerView, data: List<Message>?) {
     val adapter = recyclerView.adapter as HomeAdapter
     adapter.submitList(data)
 }
+
+@BindingAdapter("checkPhishing")
+fun bindSpamIndicator(layout: LinearLayout,score: Int){
+    Log.d("score",score.toString())
+    if (score>50){
+        layout.isVisible = false
+    }
+}
+
 
 @BindingAdapter("bindSenderImage")
 fun bindSenderImage(imageView: ImageView, message: Message?) {

@@ -9,13 +9,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 
-const val BASE_URL = "https://63f58654-5ce7-4243-874a-f8316aa48776.mock.pstmn.io/"
+const val BASE_URL = "https://c0f4-2405-201-a407-28-16d6-2b5b-efb8-c040.ngrok.io/"
 const val yt_developer_key = "AIzaSyC30WdEEv2azB9iIDGZbTUKQ9V6_VR9jmc"
 
 interface PhishingAPI {
 
     @Headers("Content-Type: application/json")
-    @POST("post/")
+    @POST("sms_check/")
     fun checkPhishing(@Body message: Phishing_Message): Call<Phishing>
 
     @GET("search")

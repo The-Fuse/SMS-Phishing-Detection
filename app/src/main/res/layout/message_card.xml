@@ -40,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
+                checkPhishing="@{100-message.type}"
                 android:background="@drawable/spam_bg"
                 android:layout_marginTop="8dp">
 
