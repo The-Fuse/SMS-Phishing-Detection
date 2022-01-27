@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.solvabit.phishingsmsdetector.MainActivity
 import com.solvabit.phishingsmsdetector.R
 import com.solvabit.phishingsmsdetector.databinding.FragmentHomeBinding
 
@@ -31,6 +33,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater)
+
+
         val contentResolver = requireActivity().contentResolver
         val cursor = contentResolver.query(
             Telephony.Sms.CONTENT_URI,
@@ -62,6 +66,13 @@ class HomeFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.apply {
+            title = "Message"
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

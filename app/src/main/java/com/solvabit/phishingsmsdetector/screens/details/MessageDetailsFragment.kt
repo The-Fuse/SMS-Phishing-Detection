@@ -16,6 +16,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 
 
 private const val TAG = "MessageDetailsFragment"
@@ -30,6 +31,8 @@ class MessageDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMessageDetailsBinding.inflate(layoutInflater)
+
+        (activity as AppCompatActivity).supportActionBar?.title = args.message.address
 
         val database = PhishingMessageDatabase.getDatabase(requireContext())
         val messageDetailsViewModelFactory = MessageDetailsViewModelFactory(args.message, database)
