@@ -2,7 +2,6 @@ package com.solvabit.phishingsmsdetector.screens.messages
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.solvabit.phishingsmsdetector.databinding.MessageCardBinding

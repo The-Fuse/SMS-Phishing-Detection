@@ -40,7 +40,7 @@ class MessagesViewModel(val messages: List<Message>,  context: Context): ViewMod
         msgList?.forEach { phishedMessage ->
             messages.find {
                 it._id == phishedMessage._id.toInt()
-            }?.type = phishedMessage.score
+            }?.creator = phishedMessage.score
         }
         _allMessages.value = messages.reversed()
     }

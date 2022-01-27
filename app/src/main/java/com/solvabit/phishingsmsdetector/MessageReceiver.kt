@@ -50,12 +50,7 @@ class MessageReceiver : BroadcastReceiver() {
                             this.result = result?.result ?: false
                             this.score = result?.score ?: 0
                         }
-                        Handler(Looper.getMainLooper()).postDelayed(
-                            {
-                                    notificationManager.sendNotification(notificationMessage, context)
-                            },
-                            5000 // value in milliseconds
-                        )
+                        notificationManager.sendNotification(notificationMessage, context)
                     }
 
                     override fun onFailure(call: Call<Phishing>, t: Throwable) {

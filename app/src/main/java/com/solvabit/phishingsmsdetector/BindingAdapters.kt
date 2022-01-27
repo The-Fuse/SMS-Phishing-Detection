@@ -3,6 +3,7 @@ package com.solvabit.phishingsmsdetector
 import android.graphics.Color
 import android.graphics.Typeface
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -31,10 +32,63 @@ fun bindData(recyclerView: RecyclerView, data: List<Message>?) {
 }
 
 @BindingAdapter("checkPhishing")
-fun bindSpamIndicator(layout: LinearLayout,score: Int){
-    Log.d("score",score.toString())
-    if (score>50){
-        layout.isVisible = false
+fun bindSpamIndicator(layout: LinearLayout,message: Message?){
+    message?.let {
+        Log.i(TAG, "bindSpamIndicator: ${message.body} = safeScore = ${message.type}")
+        val safeScore = message.creator
+        when(safeScore) {
+            in 0 .. 49 -> {
+                layout.visibility = View.VISIBLE
+                layout.setBackgroundResource(R.drawable.spam_bg)
+            }
+            in 50 .. 100 -> {
+                layout.visibility = View.VISIBLE
+                layout.setBackgroundResource(R.drawable.safe_bg)
+            }
+            else -> {
+                layout.visibility = View.GONE
+            }
+        }
+    }
+}
+
+@BindingAdapter("bindPhishingIcon")
+fun bindFishingIcon(imageView: ImageView, message: Message?) {
+    message?.let {
+        val safeScore = message.creator
+        when(safeScore) {
+            in 0 .. 49 -> {
+                imageView.setImageResource(R.drawable.ic_baseline_report_problem_24)
+                imageView.visibility = View.VISIBLE
+            }
+            in 50 .. 100 -> {
+                imageView.setImageResource(R.drawable.ic_baseline_insert_emoticon_24)
+                imageView.visibility = View.VISIBLE
+            }
+            else -> {
+                imageView.visibility = View.GONE
+            }
+        }
+    }
+}
+
+@BindingAdapter("bindPhishingText")
+fun bindFishingText(textView: TextView, message: Message?) {
+    message?.let {
+        val safeScore = message.creator
+        when(safeScore) {
+            in 0 .. 49 -> {
+                textView.text = "This message looks suspicious"
+                textView.visibility = View.VISIBLE
+            }
+            in 50 .. 100 -> {
+                textView.text = "This message is Safe"
+                textView.visibility = View.VISIBLE
+            }
+            else -> {
+                textView.visibility = View.GONE
+            }
+        }
     }
 }
 

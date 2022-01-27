@@ -47,7 +47,7 @@ class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() 
                 body = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.BODY))
                 serviceCenter =
                     cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.SERVICE_CENTER))
-                creator = cursor.getString(cursor.getColumnIndexOrThrow(Telephony.Sms.CREATOR))
+                creator = -1
                 type = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms.TYPE))
             }
             mutableMsgList.add(msg)

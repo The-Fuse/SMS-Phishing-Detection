@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                checkPhishing="@{100-message.type}"
+                checkPhishing="@{message}"
                 android:background="@drawable/spam_bg"
                 android:layout_marginTop="8dp">
 
@@ -49,7 +49,9 @@
                     android:layout_height="20dp"
                     android:padding="4dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_report_problem_24"/>
+                    bindPhishingIcon="@{message}"
+                    tools:src="@drawable/ic_baseline_report_problem_24"/>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,9 +59,9 @@
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
                     android:paddingRight="4dp"
-                    android:text="This message looks suspicious"
+                    bindPhishingText="@{message}"
+                    tools:text="This message looks suspicious"
                     android:textColor="@color/white"
-
                     android:textSize="12sp" />
 
             </LinearLayout>
