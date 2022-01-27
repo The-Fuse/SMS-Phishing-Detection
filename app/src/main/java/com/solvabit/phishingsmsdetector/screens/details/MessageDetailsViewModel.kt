@@ -25,6 +25,9 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
     private val _score = MutableLiveData<Int>()
     val score : LiveData<Int>
         get() = _score
+    private val _report = MutableLiveData<Boolean>()
+    val report : LiveData<Boolean>
+        get() = _report
     private val _hindiText = MutableLiveData<String>()
     val hindiText: LiveData<String>
         get() = _hindiText
@@ -79,6 +82,7 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
             checkPhishing(message)
         }else{
             _score.value = msgData.score
+            _report.value = msgData.result
         }
     }
 
@@ -101,6 +105,7 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
                             message.address
                         )
                     _score.value = point
+                    _report.value = reply.result
                     if(message._id != -1)
                         addPhishedDataToRoom(phishedMessage)
                 }
