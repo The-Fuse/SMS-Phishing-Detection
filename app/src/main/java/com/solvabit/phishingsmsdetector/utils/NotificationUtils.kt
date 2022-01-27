@@ -50,11 +50,19 @@ fun NotificationManager.sendNotification(message: NotificationMessage, applicati
             tempLayout
         }
         else -> {
-            val tempLayout = RemoteViews("com.solvabit.phishingsmsdetector", R.layout.notification_small)
-            tempLayout.setImageViewResource(R.id.small_notification_imageView, R.drawable.warning_icon)
-            tempLayout.setTextViewText(R.id.small_notification_score_text, "Unsafe Percentage: " + message.score + "%")
-            builder.priority = NotificationCompat.PRIORITY_HIGH
-            tempLayout
+            if(message.score < 50) {
+                val tempLayout = RemoteViews("com.solvabit.phishingsmsdetector", R.layout.notification_safe_small)
+                tempLayout.setTextViewText(R.id.small_notification_score_text, "Unsafe Percentage: " + message.score + "%")
+                builder.priority = NotificationCompat.PRIORITY_HIGH
+                tempLayout
+            }
+            else {
+                val tempLayout = RemoteViews("com.solvabit.phishingsmsdetector", R.layout.notification_small)
+                tempLayout.setTextViewText(R.id.small_notification_score_text, "Unsafe Percentage: " + message.score + "%")
+                builder.priority = NotificationCompat.PRIORITY_HIGH
+                tempLayout
+            }
+
         }
 
     }

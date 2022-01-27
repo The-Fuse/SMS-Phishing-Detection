@@ -5,7 +5,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/temp_splash_screen"/>
+            android:src="@drawable/icons8_new_message_96"/>
     </item>
 
 </layer-list>

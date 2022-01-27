@@ -10,7 +10,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="12dp"
-        android:src="@drawable/warning_icon" />
+        tools:src="@drawable/safe_icon" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Compat.Notification.Title"
-            android:text="Your message looks UNSAFE!!!!" />
+            android:text="Your message looks SAFE 😃" />
 
         <TextView
             android:id="@+id/small_notification_score_text"
