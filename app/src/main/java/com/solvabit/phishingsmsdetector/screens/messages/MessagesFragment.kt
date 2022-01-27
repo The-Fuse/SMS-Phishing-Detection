@@ -1,6 +1,7 @@
 package com.solvabit.phishingsmsdetector.screens.messages
 
 import android.os.Bundle
+import android.util.Log
 import android.telephony.SmsManager
 import android.text.TextUtils
 import android.view.*
@@ -14,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.solvabit.phishingsmsdetector.R
 
+private const val TAG = "MessagesFragment"
 
 class MessagesFragment : Fragment() {
 
@@ -50,9 +52,11 @@ class MessagesFragment : Fragment() {
             )
         })
         binding.recyclerAllMessages.adapter = adapter
-        viewModel.allMessages.observe(viewLifecycleOwner, Observer {
+        viewModel.allPhishedMessagesList.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it)
+                viewModel.getPhishedList()
+                Log.i(TAG, "onCreateView: ${viewModel.allMessages.value}")
+                adapter.submitList(viewModel.allMessages.value)
             }
         })
 

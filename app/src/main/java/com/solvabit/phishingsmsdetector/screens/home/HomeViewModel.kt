@@ -27,8 +27,6 @@ class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() 
     val phishedList: LiveData<List<PhishedMessages>>
         get() = _phishedList
 
-    val lifeDataMerger = MediatorLiveData<List<PhishedMessages>>()
-
     init {
         readSms()
     }
