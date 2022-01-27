@@ -1,6 +1,8 @@
 package com.solvabit.phishingsmsdetector.screens.messages
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.telephony.SmsManager
 import android.text.TextUtils
@@ -14,6 +16,7 @@ import com.solvabit.phishingsmsdetector.databinding.FragmentMessagesBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.solvabit.phishingsmsdetector.R
+import kotlinx.coroutines.delay
 
 private const val TAG = "MessagesFragment"
 
@@ -84,7 +87,12 @@ class MessagesFragment : Fragment() {
             if (TextUtils.isDigitsOnly(myNumber)) {
                 val smsManager: SmsManager = SmsManager.getDefault()
                 smsManager.sendTextMessage(myNumber, null, myMsg, null, null)
-                Toast.makeText(context, "Message Sent", Toast.LENGTH_SHORT).show()
+                binding.constraintLayoutReportSuccess.visibility = View.VISIBLE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.constraintLayoutReportSuccess.visibility = View.GONE
+                }, 3000L)
+
+
             } else {
                 Toast.makeText(context, "Please enter the correct number", Toast.LENGTH_SHORT).show()
             }
