@@ -20,18 +20,20 @@ class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() 
     val msgList: LiveData<List<Message>>
         get() = _msgList
 
+
     val database = PhishingMessageDatabase.getDatabase(context)
+
+    private var _phishedList = database.phishingMessagesDao().getPhishedMessages()
+    val phishedList: LiveData<List<PhishedMessages>>
+        get() = _phishedList
 
     val lifeDataMerger = MediatorLiveData<List<PhishedMessages>>()
 
     init {
         readSms()
-        viewModelScope.launch {
-            getPhishingData()
-        }
     }
 
-    private fun readSms() {
+    fun readSms() {
         while (cursor.moveToNext()) {
             val msg = Message().apply {
                 _id = cursor.getInt(cursor.getColumnIndexOrThrow(Telephony.Sms._ID))
@@ -56,20 +58,13 @@ class HomeViewModel(context: Context, private val cursor: Cursor) : ViewModel() 
         cursor.close()
     }
 
-    private suspend fun getPhishingData() {
-
-        val phishedData = withContext(Dispatchers.IO) {
-            val temp = database.phishingMessagesDao().getPhishedMessages()
-            Log.i(TAG, "getPhishingData: $temp.val")
-            temp
-        }
-
+    fun refreshListPhishedData() {
         val msgListMutable = mutableMsgList.distinctBy {
             it.address
         }
-        val phishedDataMutable = phishedData
+        val phishedDataMutable = _phishedList.value
         Log.i(TAG, "getPhishingData: $phishedDataMutable")
-        phishedDataMutable.forEach { phishedMessage ->
+        phishedDataMutable?.forEach { phishedMessage ->
             msgListMutable.find {
                 Log.i(TAG, "getPhishingData: ${phishedMessage.sender} == ${it.address}")
                 phishedMessage.sender == it.address
