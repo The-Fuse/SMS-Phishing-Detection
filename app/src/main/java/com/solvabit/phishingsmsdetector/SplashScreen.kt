@@ -18,12 +18,21 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun checkSmsPermission() {
-        val permission = arrayOf(Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS)
-        if (ContextCompat.checkSelfPermission(this, "android.permission.RECEIVE_SMS") == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED)
-        {
+        val permission = arrayOf(Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS)
+        if (ContextCompat.checkSelfPermission(
+                this,
+                "android.permission.RECEIVE_SMS"
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this,
+                "android.permission.READ_SMS"
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this,
+                "android.permission.SEND_SMS"
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             // App has permissions to listen incoming SMS messages
             Log.d("adnan", "checkForSmsReceivePermissions: Allowed");
-            val intent = Intent(this,MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         } else {
@@ -31,45 +40,10 @@ class SplashScreen : AppCompatActivity() {
             Log.d("adnan", "checkForSmsReceivePermissions: Denied");
 
             // Request permissions from user
-            val intent = Intent(this,OnBoarding::class.java)
+            val intent = Intent(this, OnBoarding::class.java)
             startActivity(intent)
             finish()
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            PERMISSIONS_CODE -> {
-                // If request is cancelled, the result arrays are empty.
-                if ((grantResults.isNotEmpty() &&
-                            grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    // Permission is granted. Continue the action or workflow
-                    // in your app.
-                    val intent = Intent(this,MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    // Explain to the user that the feature is unavailable because
-                    // the features requires a permission that the user has denied.
-                    // At the same time, respect the user's decision. Don't link to
-                    // system settings in an effort to convince the user to change
-                    // their decision.
-                    val intent = Intent(this,OnBoarding::class.java)
-                    startActivity(intent)
-                    finish()
-
-                }
-                return
-            }
-
-            // Add other 'when' lines to check for other
-            // permissions this app might request.
-            else -> {
-                // Ignore all other requests.
-            }
-        }
-    }
 }
