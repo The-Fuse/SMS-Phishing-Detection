@@ -1,5 +1,7 @@
 # Phishing SMS Detector Application
-<img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg"> <img src="https://img.shields.io/badge/architecture-MVVM-brightgreen">
+<img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg"> <img src="https://img.shields.io/badge/architecture-MVVM-blue"> 
+<img src="https://img.shields.io/badge/minSdk-21-orange"> <img src="https://img.shields.io/badge/targetSdk-31-lightgrey"> 
+<img src="https://img.shields.io/badge/version-1-yellow">
 
 An Android application that detects phishing in incoming texts and alerts the user through notification in real time. The user may also examine the legitimacy of any message by accessing it in the app and viewing it in graphical form. Our API is powered by a dynamic machine learning model that improves over time as our consumers use it. Using YouTube's API, we also give the relevant spam videos that have been reported. The user receives a warning and has the option of reporting/forwarding any questionable messages to 1909.
 
