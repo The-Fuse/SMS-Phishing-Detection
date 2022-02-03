@@ -12,10 +12,13 @@
             type="com.solvabit.phishingsmsdetector.screens.details.MessageDetailsViewModel" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:background="@color/light_background"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".screens.details.MessageDetailsFragment">
 
         <include
@@ -31,10 +34,10 @@
             app:layout_constraintTop_toTopOf="parent"
             app:message="@{message}" />
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@color/light_background"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -158,10 +161,9 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_youtube"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@color/white"
                     android:nestedScrollingEnabled="false"
                     android:scrollbars="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -187,7 +189,8 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
