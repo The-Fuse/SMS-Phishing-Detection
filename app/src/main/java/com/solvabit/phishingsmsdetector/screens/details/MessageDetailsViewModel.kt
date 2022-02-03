@@ -19,6 +19,8 @@ import retrofit2.Call
 import retrofit2.Response
 import kotlin.properties.Delegates
 
+enum class STATUS{Loading, Success, Failed}
+
 class MessageDetailsViewModel(val message: Message, val database: PhishingMessageDatabase) :
     ViewModel() {
 
@@ -36,6 +38,18 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
     val youtubeList: LiveData<List<Items>>
         get() = _youtubeList
 
+    private val _youtubeStatus = MutableLiveData<STATUS>()
+    val youtubeStatus: LiveData<STATUS>
+        get() = _youtubeStatus
+
+    private val _hindiStatus = MutableLiveData<STATUS>()
+    val hindiStatus: LiveData<STATUS>
+        get() = _hindiStatus
+
+    private val _apiStatus = MutableLiveData<STATUS>()
+    val apiStatus: LiveData<STATUS>
+        get() = _apiStatus
+
     init {
         initializeTranslation(message.body)
         initializeYoutubeData()
@@ -44,14 +58,17 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
 
     private fun initializeYoutubeData() {
         Log.i(TAG, "initializeYoutubeData: ${message.body.take(100)}")
+        _youtubeStatus.value = STATUS.Loading
         val ytAPI = PhishingService.youtubeAPInstance.getYoutubeVideos(message.body.take(100))
         ytAPI.enqueue(object : retrofit2.Callback<YoutubeData> {
             override fun onResponse(call: Call<YoutubeData>, response: Response<YoutubeData>) {
                 _youtubeList.value = response.body()?.items
+                _youtubeStatus.value = STATUS.Success
                 Log.i(TAG, "onResponse: ${_youtubeList.value}")
             }
 
             override fun onFailure(call: Call<YoutubeData>, t: Throwable) {
+                _youtubeStatus.value = STATUS.Failed
                 Log.i(TAG, "onFailure: ${t.message}")
             }
         })
@@ -59,6 +76,7 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
     }
 
     private fun initializeCheckDataExists() {
+        _apiStatus.value = STATUS.Loading
         when (message._id) {
             -1 -> {
                 checkPhishing(message)
@@ -83,6 +101,7 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
         }else{
             _score.value = msgData.score
             _report.value = msgData.result
+            _apiStatus.value = STATUS.Success
         }
     }
 
@@ -106,12 +125,14 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
                         )
                     _score.value = point
                     _report.value = reply.result
+                    _apiStatus.value = STATUS.Success
                     if(message._id != -1)
                         addPhishedDataToRoom(phishedMessage)
                 }
             }
 
             override fun onFailure(call: Call<Phishing>, t: Throwable) {
+                _apiStatus.value = STATUS.Failed
                 Log.i(TAG, "onFailure this: ${t.message}")
             }
         })
@@ -124,6 +145,7 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
 
     private fun initializeTranslation(messageText: String) {
 
+        _hindiStatus.value = STATUS.Loading
         val options = FirebaseTranslatorOptions.Builder()
             .setSourceLanguage(FirebaseTranslateLanguage.EN)
             .setTargetLanguage(FirebaseTranslateLanguage.HI)
@@ -135,13 +157,14 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
                 englishHindiTranslator.translate(messageText)
                     .addOnSuccessListener { translatedText ->
                         _hindiText.value = translatedText
+                        _hindiStatus.value = STATUS.Success
                     }
                     .addOnFailureListener { exception ->
                         _hindiText.value = exception.message
                     }
             }
             .addOnFailureListener {
-                Log.i(TAG, "initializeTranslation: Error tranlating - ${it.message}")
+                _hindiStatus.value = STATUS.Failed
             }
     }
 
