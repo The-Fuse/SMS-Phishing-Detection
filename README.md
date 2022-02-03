@@ -5,7 +5,7 @@
 
 An Android application that detects phishing in incoming texts and alerts the user through notification in real time. The user may also examine the legitimacy of any message by accessing it in the app and viewing it in graphical form. Our API is powered by a dynamic machine learning model that improves over time as our consumers use it. Using YouTube's API, we also give the relevant spam videos that have been reported. The user receives a warning and has the option of reporting/forwarding any questionable messages to 1909.
 
-![Slide 4_3 - 1 (1)](https://user-images.githubusercontent.com/54764235/152382900-22c15f7a-4c47-467f-b860-61f62b0a434d.png)
+![Slide 4_3 - 1 (2)](https://user-images.githubusercontent.com/54764235/152403588-6d0a895b-fdc6-44d3-a869-235ded5545e7.png)
 
 
 ---
