@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <import type="com.solvabit.phishingsmsdetector.screens.details.STATUS" />
+
+        <variable
+            name="status"
+            type="com.solvabit.phishingsmsdetector.screens.details.STATUS" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/default_loader"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:padding="16sp"
+            android:visibility="@{status == STATUS.Loading ? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/default_loader"
+            tools:src="@drawable/safe_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Error! Please try again!!"
+            android:fontFamily="@font/lato"
+            android:textColor="#E60D0D"
+            android:textSize="14sp"
+            android:padding="20dp"
+            android:visibility="@{status == STATUS.Failed ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/default_loader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

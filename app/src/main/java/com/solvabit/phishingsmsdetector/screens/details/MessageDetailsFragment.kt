@@ -50,7 +50,7 @@ class MessageDetailsFragment : Fragment() {
         viewModel.youtubeList.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if(it.isNullOrEmpty()) {
-                    Log.i(TAG, "onCreateView: No Videos found")
+                    binding.noVideosFoundTextView.visibility = View.VISIBLE
                 }
                 else {
                     if(it.size<5)
