@@ -77,7 +77,6 @@
                 android:text="@{message.body}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-
                 tools:text="@string/temp_msg" />
 
 

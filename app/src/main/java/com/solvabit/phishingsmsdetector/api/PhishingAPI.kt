@@ -28,12 +28,13 @@ interface PhishingAPI {
         @Query("type") type: String = "video"
     ): Call<YoutubeData>
 
+    @Headers("Content-Type: application/json")
     @GET("recent")
     fun getTweets(
         @Query("query") query: String,
         @Header("Authorization") token: String = "Bearer $twitter_api_key",
         @Query("tweet.fields") fields: String = "created_at",
-        @Query("expansions") expansions: String = "created_at"
+        @Query("expansions") expansions: String = "author_id"
     ): Call<Tweets>
 }
 
