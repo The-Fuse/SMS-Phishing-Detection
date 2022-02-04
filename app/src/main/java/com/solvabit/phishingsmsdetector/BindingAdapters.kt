@@ -148,7 +148,10 @@ fun bindBarChart(barChart: BarChart, score: Int) {
 //    xAxis.valueFormatter = IndexAxisValueFormatter(labels)
 
     val barDataSet = BarDataSet(entries,"")
-    barDataSet.setColors(*ColorTemplate.PASTEL_COLORS)
+    val colorList = IntArray(2)
+    colorList[0] = Color.parseColor("#F44336")
+    colorList[1] = Color.parseColor("#4CAF50")
+    barDataSet.setColors(ColorTemplate.createColors(colorList))
 
     val data = BarData(barDataSet)
     barChart.data = data
