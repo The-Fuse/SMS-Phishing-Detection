@@ -1,9 +1,6 @@
 package com.solvabit.phishingsmsdetector.api
 
-import com.solvabit.phishingsmsdetector.models.Phishing
-import com.solvabit.phishingsmsdetector.models.Phishing_Message
-import com.solvabit.phishingsmsdetector.models.Tweets
-import com.solvabit.phishingsmsdetector.models.YoutubeData
+import com.solvabit.phishingsmsdetector.models.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -29,13 +26,8 @@ interface PhishingAPI {
     ): Call<YoutubeData>
 
     @Headers("Content-Type: application/json")
-    @GET("recent")
-    fun getTweets(
-        @Query("query") query: String,
-        @Header("Authorization") token: String = "Bearer $twitter_api_key",
-        @Query("tweet.fields") fields: String = "created_at",
-        @Query("expansions") expansions: String = "author_id"
-    ): Call<Tweets>
+    @POST("twitter/")
+    fun getTweets(@Body query: Twitter_Query): Call<Tweets>
 }
 
 object PhishingService {
@@ -53,7 +45,7 @@ object PhishingService {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val retrofitTwitter = Retrofit.Builder()
-            .baseUrl("https://api.twitter.com/2/tweets/search/")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         phishingAPInstance = retrofit.create(PhishingAPI::class.java)

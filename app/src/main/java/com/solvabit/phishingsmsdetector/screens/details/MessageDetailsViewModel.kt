@@ -63,8 +63,8 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
 
     private fun initializeTwitterData() {
         Log.i(TAG, "initializeYoutubeData: ${message.body.take(100)}")
-        val twitterQuery = "${message.body.take(30)}"
-        val twitterAPI = PhishingService.twitterAPInstance.getTweets("narendra modi")
+        val twitterQuery = Twitter_Query("narendra modi")
+        val twitterAPI = PhishingService.twitterAPInstance.getTweets(twitterQuery)
         twitterAPI.enqueue(object : retrofit2.Callback<Tweets> {
             override fun onResponse(call: Call<Tweets>, response: Response<Tweets>) {
 //                _twitterList.value = response.body()?.data
