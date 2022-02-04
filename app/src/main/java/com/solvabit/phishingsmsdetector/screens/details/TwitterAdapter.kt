@@ -1,5 +1,6 @@
 package com.solvabit.phishingsmsdetector.screens.details
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.solvabit.phishingsmsdetector.databinding.TweetsCardBinding
 import com.solvabit.phishingsmsdetector.models.Tweet
+
+private const val TAG = "TwitterAdapter"
 
 class TwitterAdapter(private val twitterListener: TwitterListener):
     ListAdapter<Tweet, TwitterAdapter.ViewHolder>(TwitterDiffCallback())
@@ -23,6 +26,7 @@ class TwitterAdapter(private val twitterListener: TwitterListener):
             RecyclerView.ViewHolder(binding.root) {
                 fun bind(item: Tweet, clickListener: TwitterListener) {
                     binding.tweet = item
+                    Log.i(TAG, "bind: $item")
                     binding.executePendingBindings()
                 }
 
