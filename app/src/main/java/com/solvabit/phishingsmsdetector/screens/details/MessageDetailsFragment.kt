@@ -60,6 +60,25 @@ class MessageDetailsFragment : Fragment() {
             }
         })
 
+        val twitterAdapter = TwitterAdapter(TwitterListener {
+            Toast.makeText(context, it.created_at, Toast.LENGTH_SHORT).show()
+        })
+        binding.includeTwitterView.recyclerViewTwitter.adapter = adapter
+
+        viewModel.twitterList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if(it.isNullOrEmpty()) {
+//                    binding.noVideosFoundTextView.visibility = View.VISIBLE
+                }
+                else {
+                    if(it.size<5)
+                        twitterAdapter.submitList(it)
+                    else
+                        twitterAdapter.submitList(it.subList(0,5))
+                }
+            }
+        })
+
 
         return binding.root
     }

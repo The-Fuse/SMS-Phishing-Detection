@@ -50,10 +50,31 @@ class MessageDetailsViewModel(val message: Message, val database: PhishingMessag
     val apiStatus: LiveData<STATUS>
         get() = _apiStatus
 
+    private val _twitterList = MutableLiveData<List<Tweet>>()
+    val twitterList: LiveData<List<Tweet>>
+        get() = _twitterList
+
     init {
         initializeTranslation(message.body)
+        initializeTwitterData()
         initializeYoutubeData()
         initializeCheckDataExists()
+    }
+
+    private fun initializeTwitterData() {
+        Log.i(TAG, "initializeYoutubeData: ${message.body.take(100)}")
+        val twitterQuery = Twitter_Query("narendra modi")
+        val twitterAPI = PhishingService.twitterAPInstance.getTweets(twitterQuery)
+        twitterAPI.enqueue(object : retrofit2.Callback<Tweets> {
+            override fun onResponse(call: Call<Tweets>, response: Response<Tweets>) {
+//                _twitterList.value = response.body()?.data
+                Log.i(TAG, "onResponse Result list Twitter: $response")
+            }
+
+            override fun onFailure(call: Call<Tweets>, t: Throwable) {
+                Log.i(TAG, "onFailure: ${t.message}")
+            }
+        })
     }
 
     private fun initializeYoutubeData() {
