@@ -1,5 +1,6 @@
 package com.solvabit.phishingsmsdetector.screens.messages
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,6 +9,7 @@ import android.telephony.SmsManager
 import android.text.TextUtils
 import android.view.*
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +27,7 @@ class MessagesFragment : Fragment() {
     private lateinit var binding: FragmentMessagesBinding
     private lateinit var viewModel: MessagesViewModel
     private val args: MessagesFragmentArgs by navArgs()
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,22 +83,31 @@ class MessagesFragment : Fragment() {
 
     private fun sendSMS() {
         val myNumber: String = "1909"
-        val myMsg: String = "This message is sent by this no and message is this, please check it!"
-        if (myNumber == "" || myMsg == "") {
-            Toast.makeText(context, "Field cannot be empty", Toast.LENGTH_SHORT).show()
-        } else {
-            if (TextUtils.isDigitsOnly(myNumber)) {
-                val smsManager: SmsManager = SmsManager.getDefault()
-                smsManager.sendTextMessage(myNumber, null, myMsg, null, null)
-                binding.constraintLayoutReportSuccess.visibility = View.VISIBLE
-                Handler(Looper.getMainLooper()).postDelayed({
-                    binding.constraintLayoutReportSuccess.visibility = View.GONE
-                }, 3000L)
-
-
-            } else {
-                Toast.makeText(context, "Please enter the correct number", Toast.LENGTH_SHORT).show()
+        Log.i(TAG, "sendSMS: ")
+        viewModel.mostPhishedMessage.observe(viewLifecycleOwner, Observer {
+            Log.i(TAG, "sendSMS: ${it.body}")
+            it?.let {
+                Log.i(TAG, "sendSMS: ${it.body}")
+                val myMsgNum: String = "I got below suspicious message from number - ${it.address}.\nPlease Check it!"
+                val myMsgText = "Suspicious Message is ${it.body}"
+                if (myNumber == "" || myMsgNum == "") {
+                    Toast.makeText(context, "Field cannot be empty", Toast.LENGTH_SHORT).show()
+                } else {
+                    if (TextUtils.isDigitsOnly(myNumber)) {
+                        val smsManager: SmsManager = SmsManager.getDefault()
+                        smsManager.sendTextMessage(myNumber, null, myMsgNum, null, null)
+                        smsManager.sendTextMessage(myNumber, null, it.body, null, null)
+                        binding.constraintLayoutReportSuccess.visibility = View.VISIBLE
+                        Log.i(TAG, "sendSMS: ${it.body}")
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            binding.constraintLayoutReportSuccess.visibility = View.GONE
+                        }, 3000L)
+                    } else {
+                        Toast.makeText(context, "Please enter the correct number", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
-        }
+        })
+
     }
 }
