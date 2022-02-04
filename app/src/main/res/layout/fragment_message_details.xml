@@ -39,7 +39,7 @@
 
             <include
                 android:id="@+id/include"
-                layout="@layout/message_card"
+                layout="@layout/message_card_clickable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"

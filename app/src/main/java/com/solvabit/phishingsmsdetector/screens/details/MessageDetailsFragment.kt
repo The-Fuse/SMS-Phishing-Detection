@@ -12,7 +12,6 @@ import com.solvabit.phishingsmsdetector.database.PhishingMessageDatabase
 import com.solvabit.phishingsmsdetector.databinding.FragmentMessageDetailsBinding
 import android.content.ActivityNotFoundException
 import android.content.Context
-
 import android.content.Intent
 import android.net.Uri
 import android.view.*
