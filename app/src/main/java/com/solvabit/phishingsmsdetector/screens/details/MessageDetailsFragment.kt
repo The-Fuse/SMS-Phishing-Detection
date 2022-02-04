@@ -63,7 +63,7 @@ class MessageDetailsFragment : Fragment() {
         val twitterAdapter = TwitterAdapter(TwitterListener {
             Toast.makeText(context, it.created_at, Toast.LENGTH_SHORT).show()
         })
-        binding.includeTwitterView.recyclerViewTwitter.adapter = adapter
+        binding.recyclerViewTwitter.adapter = twitterAdapter
 
         viewModel.twitterList.observe(viewLifecycleOwner, Observer {
             it?.let {
