@@ -23,7 +23,7 @@ For development, you will only need:
 - [Install Android Studio](https://developer.android.com/studio/install.html)
 - Download the project 
 ```bash
- git clone https://github.com/The-Fuse/Ctrl_Alt_Debt_Hackathon.git 
+ git clone https://github.com/The-Fuse/SMS-Phishing-Detection.git
 ```
 - Open the project into Android Studio.
 - Build the project and run the sample. You may need to update gradle and library versions. 
